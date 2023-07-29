@@ -36,7 +36,7 @@ public class EffectTooltipHandler {
 
     public static EventResult onInventoryMobEffects(Screen screen, int availableSpace, MutableBoolean smallWidgets, MutableInt horizontalOffset) {
 
-        if (!EffectDescriptions.CONFIG.get(ClientConfig.class).addDescriptionsToWidgetTooltips) return EventResult.PASS;
+        if (!EffectDescriptions.CONFIG.get(ClientConfig.class).addDescriptionsToWidgetTooltips || ModLoaderEnvironment.INSTANCE.isModLoaded("jeed")) return EventResult.PASS;
 
         Minecraft minecraft = ScreenHelper.INSTANCE.getMinecraft(screen);
         Collection<MobEffectInstance> activeEffects = minecraft.player.getActiveEffects();
