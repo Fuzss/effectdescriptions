@@ -5,8 +5,8 @@ import fuzs.effectdescriptions.EffectDescriptions;
 import fuzs.effectdescriptions.client.core.ClientAbstractions;
 import fuzs.effectdescriptions.client.helper.EffectLinesHelper;
 import fuzs.effectdescriptions.config.ClientConfig;
+import fuzs.puzzleslib.api.client.screen.v2.DeferredTooltipRendering;
 import fuzs.puzzleslib.api.client.screen.v2.ScreenHelper;
-import fuzs.puzzleslib.api.client.screen.v2.ScreenTooltipFactory;
 import fuzs.puzzleslib.api.core.v1.ModLoaderEnvironment;
 import fuzs.puzzleslib.api.event.v1.core.EventResult;
 import fuzs.puzzleslib.api.event.v1.data.MutableBoolean;
@@ -14,7 +14,6 @@ import fuzs.puzzleslib.api.event.v1.data.MutableInt;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
-import net.minecraft.client.gui.screens.inventory.tooltip.DefaultTooltipPositioner;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.effect.MobEffectInstance;
 
@@ -67,7 +66,7 @@ public class InventoryTooltipHandler {
 
                 if (!lines.isEmpty()) {
 
-                    screen.setTooltipForNextRenderPass(ScreenTooltipFactory.create(lines), DefaultTooltipPositioner.INSTANCE, true);
+                    DeferredTooltipRendering.setTooltipForNextRenderPass(DeferredTooltipRendering.splitTooltip(lines));
                 }
             }
         }

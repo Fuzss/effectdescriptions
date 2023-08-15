@@ -23,6 +23,8 @@ public class ClientConfig implements ConfigCore {
     public boolean addDescriptionsToWidgetTooltips = true;
     @Config(description = "Add the effect name and duration to every effect widget tooltip, even if the widget already contains both.")
     public boolean alwaysAddEffectNameToTooltips = true;
+    @Config(description = "Add attributes granted by an effect to effect widget tooltips.")
+    public boolean addAttributesToWidgetTooltips = true;
     @Config(description = "Add the internal id of an effect to effect widget tooltips.")
     public boolean addInternalIdToWidgetTooltips = false;
     @Config(description = "Add the name of the mod that added an effect to effect widget tooltips.")

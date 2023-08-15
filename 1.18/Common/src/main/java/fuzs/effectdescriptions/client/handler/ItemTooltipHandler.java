@@ -1,15 +1,12 @@
 package fuzs.effectdescriptions.client.handler;
 
 import fuzs.effectdescriptions.EffectDescriptions;
+import fuzs.effectdescriptions.client.helper.EffectLinesHelper;
 import fuzs.effectdescriptions.config.ClientConfig;
-import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.screens.Screen;
-import net.minecraft.locale.Language;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.MutableComponent;
-import net.minecraft.network.chat.TextComponent;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -19,7 +16,6 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.alchemy.PotionUtils;
 import org.apache.commons.compress.utils.Lists;
-import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
@@ -42,10 +38,8 @@ public class ItemTooltipHandler {
                 }
                 String id = contents.getKey();
                 if (ids.contains(id)) {
-                    Component component = getEffectDescriptionComponent(id, false);
-                    if (component != null) {
-                        lines.add(i + 1, component);
-                    }
+                    int index = i + 1;
+                    EffectLinesHelper.getEffectDescriptionComponent(id, false).ifPresent(component -> lines.add(index, component));
                 }
             }
         }
@@ -80,34 +74,5 @@ public class ItemTooltipHandler {
                 }
             }
         }
-    }
-
-    @Nullable
-    public static Component getEffectDescriptionComponent(String id, boolean preventIndentation) {
-        String description;
-        if (Language.getInstance().has(id + ".desc")) {
-            // our own format, similar to Enchantment Descriptions mod format
-            description = id + ".desc";
-        } else if (Language.getInstance().has(id + ".description")) {
-            // Just Enough Effect Descriptions mod format
-            description = id + ".description";
-        } else if (Language.getInstance().has("description." + id)) {
-            // Potion Descriptions mod format
-            description = "description." + id;
-        } else  {
-            description = null;
-        }
-        if (description != null) {
-
-            MutableComponent component = new TranslatableComponent(description);
-            if (!preventIndentation) {
-
-                int indentation = EffectDescriptions.CONFIG.get(ClientConfig.class).descriptionIndentation;
-                if (indentation > 0) component = new TextComponent(StringUtils.repeat(" ", indentation)).append(component);
-            }
-
-            return component.withStyle(ChatFormatting.GRAY);
-        }
-        return null;
     }
 }
