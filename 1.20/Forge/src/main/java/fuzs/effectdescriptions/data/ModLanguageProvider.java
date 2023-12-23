@@ -24,7 +24,7 @@ public class ModLanguageProvider extends AbstractLanguageProvider {
         this.addAdditional(MobEffects.REGENERATION, "desc", "Regenerates health over time.");
         this.addAdditional(MobEffects.DAMAGE_RESISTANCE, "desc", "Reduces incoming damage.");
         this.addAdditional(MobEffects.FIRE_RESISTANCE, "desc", "Prevents taking damage from fire sources, like fire and lava.");
-        this.addAdditional(MobEffects.WATER_BREATHING, "desc", "Prevents loosing air underwater and drowning.");
+        this.addAdditional(MobEffects.WATER_BREATHING, "desc", "Prevents losing air underwater and drowning.");
         this.addAdditional(MobEffects.INVISIBILITY, "desc", "Grants invisibility, and reduces other mobs' detection range.");
         this.addAdditional(MobEffects.BLINDNESS, "desc", "Impairs vision and disables the ability to sprint and critical hit.");
         this.addAdditional(MobEffects.NIGHT_VISION, "desc", "Lets the player see well in darkness and underwater.");

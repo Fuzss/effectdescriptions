@@ -29,7 +29,7 @@
   "effect.minecraft.speed.desc": "Increases walking speed.",
   "effect.minecraft.strength.desc": "Increases dealt melee damage.",
   "effect.minecraft.unluck.desc": "Can reduce chances of high-quality and more loot.",
-  "effect.minecraft.water_breathing.desc": "Prevents loosing air underwater and drowning.",
+  "effect.minecraft.water_breathing.desc": "Prevents losing air underwater and drowning.",
   "effect.minecraft.weakness.desc": "Decreases dealt melee damage.",
   "effect.minecraft.wither.desc": "Inflicts potentially deadly damage over time."
 }
