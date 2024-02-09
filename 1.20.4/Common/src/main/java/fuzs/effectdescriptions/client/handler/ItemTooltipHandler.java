@@ -5,16 +5,18 @@ import fuzs.effectdescriptions.client.helper.EffectLinesHelper;
 import fuzs.effectdescriptions.config.ClientConfig;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.ListTag;
+import net.minecraft.nbt.NbtOps;
+import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.contents.TranslatableContents;
-import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.item.SuspiciousStewItem;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.alchemy.PotionUtils;
+import net.minecraft.world.level.block.SuspiciousEffectHolder;
 import org.apache.commons.compress.utils.Lists;
 import org.jetbrains.annotations.Nullable;
 
@@ -56,23 +58,10 @@ public class ItemTooltipHandler {
 
     private static void getSuspiciousStewPotionEffects(ItemStack itemStack, Consumer<MobEffectInstance> consumer) {
         CompoundTag compoundTag = itemStack.getTag();
-        if (compoundTag != null && compoundTag.contains("Effects", 9)) {
-            ListTag listTag = compoundTag.getList("Effects", 10);
-
-            for(int i = 0; i < listTag.size(); ++i) {
-                CompoundTag compoundTag2 = listTag.getCompound(i);
-                int j;
-                if (compoundTag2.contains("EffectDuration", 99)) {
-                    j = compoundTag2.getInt("EffectDuration");
-                } else {
-                    j = 160;
-                }
-
-                MobEffect mobEffect = MobEffect.byId(compoundTag2.getInt("EffectId"));
-                if (mobEffect != null) {
-                    consumer.accept(new MobEffectInstance(mobEffect, j));
-                }
-            }
+        if (compoundTag != null && compoundTag.contains(SuspiciousStewItem.EFFECTS_TAG, Tag.TAG_LIST)) {
+            SuspiciousEffectHolder.EffectEntry.LIST_CODEC.parse(NbtOps.INSTANCE, compoundTag.getList("effects", 10)).result().ifPresent((list) -> {
+                list.forEach(effectEntry -> consumer.accept(effectEntry.createEffectInstance()));
+            });
         }
     }
 }

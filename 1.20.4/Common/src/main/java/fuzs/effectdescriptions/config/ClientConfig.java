@@ -3,6 +3,7 @@ package fuzs.effectdescriptions.config;
 import fuzs.puzzleslib.api.config.v3.Config;
 import fuzs.puzzleslib.api.config.v3.ConfigCore;
 import fuzs.puzzleslib.api.config.v3.serialization.ConfigDataSet;
+import fuzs.puzzleslib.api.config.v3.serialization.KeyedValueProvider;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
@@ -13,7 +14,7 @@ public class ClientConfig implements ConfigCore {
     @Config(description = "Add effect descriptions to item tooltips.")
     public boolean addDescriptionsToItemTooltips = true;
     @Config(description = {"Items that should support descriptions for the effects on their inventory tooltip.", ConfigDataSet.CONFIG_DESCRIPTION})
-    List<String> effectDescriptionItemsRaw = ConfigDataSet.toString(Registries.ITEM, Items.POTION, Items.SPLASH_POTION, Items.LINGERING_POTION, Items.TIPPED_ARROW, Items.SUSPICIOUS_STEW);
+    List<String> effectDescriptionItemsRaw = KeyedValueProvider.toString(Registries.ITEM, Items.POTION, Items.SPLASH_POTION, Items.LINGERING_POTION, Items.TIPPED_ARROW, Items.SUSPICIOUS_STEW);
     @Config(description = "Amount of spaces to add at the beginning of an effect description.")
     @Config.IntRange(min = 0)
     public int descriptionIndentation = 0;

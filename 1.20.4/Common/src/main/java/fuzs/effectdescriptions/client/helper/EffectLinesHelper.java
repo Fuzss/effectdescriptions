@@ -4,13 +4,16 @@ import com.google.common.collect.Lists;
 import com.mojang.datafixers.util.Pair;
 import fuzs.effectdescriptions.EffectDescriptions;
 import fuzs.effectdescriptions.config.ClientConfig;
+import fuzs.puzzleslib.api.core.v1.ModContainer;
 import fuzs.puzzleslib.api.core.v1.ModLoaderEnvironment;
 import net.minecraft.ChatFormatting;
+import net.minecraft.client.Minecraft;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.locale.Language;
 import net.minecraft.network.chat.CommonComponents;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.world.effect.AttributeModifierTemplate;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffectUtil;
@@ -18,6 +21,7 @@ import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.item.ItemStack;
 import org.apache.commons.lang3.StringUtils;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 import java.util.Map;
@@ -26,22 +30,11 @@ import java.util.Optional;
 public class EffectLinesHelper {
 
     public static Optional<Component> getEffectDescriptionComponent(String id, boolean preventIndentation) {
-        String description;
-        if (Language.getInstance().has(id + ".desc")) {
-            // our own format, similar to Enchantment Descriptions mod format
-            description = id + ".desc";
-        } else if (Language.getInstance().has(id + ".description")) {
-            // Just Enough Effect Descriptions mod format
-            description = id + ".description";
-        } else if (Language.getInstance().has("description." + id)) {
-            // Potion Descriptions mod format
-            description = "description." + id;
-        } else  {
-            description = null;
-        }
-        if (description != null) {
 
-            MutableComponent component = Component.translatable(description);
+        String descriptionKey = getDescriptionTranslationKey(id);
+        if (descriptionKey != null) {
+
+            MutableComponent component = Component.translatable(descriptionKey);
             if (!preventIndentation) {
 
                 int indentation = EffectDescriptions.CONFIG.get(ClientConfig.class).descriptionIndentation;
@@ -50,10 +43,27 @@ public class EffectLinesHelper {
 
             return Optional.of(component.withStyle(ChatFormatting.GRAY));
         }
+
         return Optional.empty();
     }
 
-    public static void tryAddDisplayName(List<Component> lines, MobEffectInstance mobEffectInstance, boolean smallWidgets) {
+    @Nullable
+    private static String getDescriptionTranslationKey(String id) {
+        if (Language.getInstance().has(id + ".desc")) {
+            // our own format, similar to Enchantment Descriptions mod format
+            return id + ".desc";
+        } else if (Language.getInstance().has(id + ".description")) {
+            // Just Enough Effect Descriptions mod format
+            return id + ".description";
+        } else if (Language.getInstance().has("description." + id)) {
+            // Potion Descriptions mod format
+            return "description." + id;
+        } else  {
+            return null;
+        }
+    }
+
+    public static void tryAddDisplayName(Minecraft minecraft, List<Component> lines, MobEffectInstance mobEffectInstance, boolean smallWidgets) {
 
         if (smallWidgets || EffectDescriptions.CONFIG.get(ClientConfig.class).alwaysAddEffectNameToTooltips) {
 
@@ -62,8 +72,14 @@ public class EffectLinesHelper {
                 effectComponent = Component.translatable("potion.withAmplifier", effectComponent, Component.translatable("potion.potency." + mobEffectInstance.getAmplifier()));
             }
 
-            Component durationComponent = Component.literal("(").append(MobEffectUtil.formatDuration(mobEffectInstance, 1.0F)).append(")");
-            effectComponent.append(CommonComponents.SPACE).append(durationComponent);
+            if (!mobEffectInstance.isInfiniteDuration()) {
+                float tickrate = minecraft.level.tickRateManager().tickrate();
+                Component durationComponent = Component.literal("(").append(MobEffectUtil.formatDuration(mobEffectInstance, 1.0F,
+                        tickrate
+                )).append(")");
+                effectComponent.append(CommonComponents.SPACE).append(durationComponent);
+            }
+
             effectComponent.withStyle(mobEffectInstance.getEffect().getCategory().getTooltipFormatting());
             lines.add(effectComponent);
         }
@@ -98,11 +114,8 @@ public class EffectLinesHelper {
     private static List<Pair<Attribute, AttributeModifier>> getAttributesFromEffects(List<MobEffectInstance> effects) {
         List<Pair<Attribute, AttributeModifier>> attributes = Lists.newArrayList();
         for (MobEffectInstance mobeffectinstance : effects) {
-            for (Map.Entry<Attribute, AttributeModifier> entry : mobeffectinstance.getEffect().getAttributeModifiers().entrySet()) {
-                AttributeModifier attributeModifier = entry.getValue();
-                double attributeModifierValue = mobeffectinstance.getEffect().getAttributeModifierValue(mobeffectinstance.getAmplifier(), attributeModifier);
-                AttributeModifier newAttributeModifier = new AttributeModifier(attributeModifier.getName(), attributeModifierValue, attributeModifier.getOperation());
-                attributes.add(new Pair<>(entry.getKey(), newAttributeModifier));
+            for (Map.Entry<Attribute, AttributeModifierTemplate> entry : mobeffectinstance.getEffect().getAttributeModifiers().entrySet()) {
+                attributes.add(new Pair<>(entry.getKey(), entry.getValue().create(mobeffectinstance.getAmplifier())));
             }
         }
         return attributes;
@@ -120,7 +133,8 @@ public class EffectLinesHelper {
 
         if (EffectDescriptions.CONFIG.get(ClientConfig.class).addModNameToWidgetTooltips) {
 
-            ModLoaderEnvironment.INSTANCE.getModName(BuiltInRegistries.MOB_EFFECT.getKey(mobEffectInstance.getEffect()).getNamespace())
+            ModLoaderEnvironment.INSTANCE.getModContainer(BuiltInRegistries.MOB_EFFECT.getKey(mobEffectInstance.getEffect()).getNamespace())
+                    .map(ModContainer::getDisplayName)
                     .map(s -> Component.literal(s).withStyle(ChatFormatting.BLUE))
                     .ifPresent(lines::add);
         }

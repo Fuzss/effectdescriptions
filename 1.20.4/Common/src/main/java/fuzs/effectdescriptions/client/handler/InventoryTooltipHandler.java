@@ -5,9 +5,8 @@ import fuzs.effectdescriptions.EffectDescriptions;
 import fuzs.effectdescriptions.client.core.ClientAbstractions;
 import fuzs.effectdescriptions.client.helper.EffectLinesHelper;
 import fuzs.effectdescriptions.config.ClientConfig;
-import fuzs.puzzleslib.api.client.screen.v2.ScreenHelper;
-import fuzs.puzzleslib.api.client.screen.v2.ScreenTooltipFactory;
-import fuzs.puzzleslib.api.core.v1.ModLoaderEnvironment;
+import fuzs.puzzleslib.api.client.gui.v2.components.ScreenTooltipFactory;
+import fuzs.puzzleslib.api.client.gui.v2.screen.ScreenHelper;
 import fuzs.puzzleslib.api.event.v1.core.EventResult;
 import fuzs.puzzleslib.api.event.v1.data.MutableBoolean;
 import fuzs.puzzleslib.api.event.v1.data.MutableInt;
@@ -25,7 +24,7 @@ public class InventoryTooltipHandler {
 
     public static EventResult onInventoryMobEffects(Screen screen, int availableSpace, MutableBoolean smallWidgets, MutableInt horizontalOffset) {
 
-        if (!EffectDescriptions.CONFIG.get(ClientConfig.class).addDescriptionsToWidgetTooltips || ModLoaderEnvironment.INSTANCE.isModLoaded("jeed")) return EventResult.PASS;
+        if (!EffectDescriptions.CONFIG.get(ClientConfig.class).addDescriptionsToWidgetTooltips) return EventResult.PASS;
 
         Minecraft minecraft = ScreenHelper.INSTANCE.getMinecraft(screen);
         Collection<MobEffectInstance> activeEffects = minecraft.player.getActiveEffects();
@@ -59,7 +58,7 @@ public class InventoryTooltipHandler {
             if (hovered != null) {
 
                 List<Component> lines = Lists.newArrayList();
-                EffectLinesHelper.tryAddDisplayName(lines, hovered, smallWidgets.getAsBoolean());
+                EffectLinesHelper.tryAddDisplayName(minecraft, lines, hovered, smallWidgets.getAsBoolean());
                 EffectLinesHelper.getEffectDescriptionComponent(hovered.getDescriptionId(), true).ifPresent(lines::add);
                 EffectLinesHelper.tryAddAttributes(lines, hovered);
                 EffectLinesHelper.tryAddInternalName(lines, hovered);
