@@ -11,30 +11,37 @@ import net.minecraft.world.item.Items;
 import java.util.List;
 
 public class ClientConfig implements ConfigCore {
-    @Config(description = "Add effect descriptions to item tooltips.")
-    public boolean addDescriptionsToItemTooltips = true;
-    @Config(description = {"Items that should support descriptions for the effects on their inventory tooltip.", ConfigDataSet.CONFIG_DESCRIPTION})
-    List<String> effectDescriptionItemsRaw = KeyedValueProvider.toString(Registries.ITEM, Items.POTION, Items.SPLASH_POTION, Items.LINGERING_POTION, Items.TIPPED_ARROW, Items.SUSPICIOUS_STEW);
-    @Config(description = "Amount of spaces to add at the beginning of an effect description.")
-    @Config.IntRange(min = 0)
-    public int descriptionIndentation = 0;
-    @Config(description = "Only reveal effect descriptions for items while any shift key is held.")
-    public boolean holdShiftForItemDescriptions = false;
-    @Config(description = "Add effect descriptions to effect widget tooltips in the survival and creative inventory screens.")
-    public boolean addDescriptionsToWidgetTooltips = true;
-    @Config(description = "Add the effect name and duration to every effect widget tooltip, even if the widget already contains both.")
-    public boolean alwaysAddEffectNameToTooltips = true;
-    @Config(description = "Add attributes granted by an effect to effect widget tooltips.")
-    public boolean addAttributesToWidgetTooltips = true;
-    @Config(description = "Add the internal id of an effect to effect widget tooltips.")
-    public boolean addInternalIdToWidgetTooltips = false;
-    @Config(description = "Add the name of the mod that added an effect to effect widget tooltips.")
-    public boolean addModNameToWidgetTooltips = false;
+    static final String KEY_ITEMS_CATEGORY = "items";
+    static final String KEY_WIDGETS_CATEGORY = "widgets";
 
-    public ConfigDataSet<Item> effectDescriptionItems;
+    @Config(name = "description", category = KEY_ITEMS_CATEGORY, description = "Add effect description to item tooltips.")
+    public boolean itemDescription = true;
+    @Config(name = "supported_items", category = KEY_ITEMS_CATEGORY, description = {"Items that should support descriptions for the effects on their inventory tooltip.", ConfigDataSet.CONFIG_DESCRIPTION})
+    List<String> supportedItemsRaw = KeyedValueProvider.toString(Registries.ITEM, Items.POTION, Items.SPLASH_POTION, Items.LINGERING_POTION, Items.TIPPED_ARROW, Items.SUSPICIOUS_STEW);
+    @Config(description = "Amount of spaces to add at the beginning of an effect description.")
+    @Config.IntRange(min = 0, max = 24)
+    public int descriptionIndentation = 0;
+    @Config(category = KEY_ITEMS_CATEGORY, description = "Only reveal effect description for items while any shift key is held.")
+    public boolean shiftToReveal = false;
+    @Config(name = "description", category = KEY_WIDGETS_CATEGORY, description = "Add effect description to effect widget tooltips in the survival and creative inventory screens.")
+    public boolean widgetDescription = true;
+    @Config(category = KEY_WIDGETS_CATEGORY, description = "Add the effect name and duration to large effect widget tooltips, even though the widget already contains both.")
+    public EffectNameMode nameAndDuration = EffectNameMode.NAME_AND_DURATION;
+    @Config(category = KEY_WIDGETS_CATEGORY, description = "Add attributes granted by an effect to effect widget tooltips.")
+    public boolean attributes = true;
+    @Config(category = KEY_WIDGETS_CATEGORY, description = "Add the internal id of an effect to effect widget tooltips.")
+    public boolean internalId = false;
+    @Config(category = KEY_WIDGETS_CATEGORY, description = "Add the name of the mod that added an effect to effect widget tooltips.")
+    public boolean modName = false;
+
+    public ConfigDataSet<Item> supportedItems;
 
     @Override
     public void afterConfigReload() {
-        this.effectDescriptionItems = ConfigDataSet.from(Registries.ITEM, this.effectDescriptionItemsRaw);
+        this.supportedItems = ConfigDataSet.from(Registries.ITEM, this.supportedItemsRaw);
+    }
+
+    public enum EffectNameMode {
+        NAME_ONLY, NAME_AND_DURATION, NONE
     }
 }

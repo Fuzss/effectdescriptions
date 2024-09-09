@@ -5,7 +5,7 @@ import fuzs.effectdescriptions.EffectDescriptions;
 import fuzs.effectdescriptions.client.core.ClientAbstractions;
 import fuzs.effectdescriptions.client.helper.EffectLinesHelper;
 import fuzs.effectdescriptions.config.ClientConfig;
-import fuzs.puzzleslib.api.client.gui.v2.components.ScreenTooltipFactory;
+import fuzs.puzzleslib.api.client.gui.v2.components.tooltip.ClientComponentSplitter;
 import fuzs.puzzleslib.api.client.gui.v2.screen.ScreenHelper;
 import fuzs.puzzleslib.api.event.v1.core.EventResult;
 import fuzs.puzzleslib.api.event.v1.data.MutableBoolean;
@@ -24,9 +24,9 @@ public class InventoryTooltipHandler {
 
     public static EventResult onInventoryMobEffects(Screen screen, int availableSpace, MutableBoolean smallWidgets, MutableInt horizontalOffset) {
 
-        if (!EffectDescriptions.CONFIG.get(ClientConfig.class).addDescriptionsToWidgetTooltips) return EventResult.PASS;
+        if (!EffectDescriptions.CONFIG.get(ClientConfig.class).widgetDescription) return EventResult.PASS;
 
-        Minecraft minecraft = ScreenHelper.INSTANCE.getMinecraft(screen);
+        Minecraft minecraft = screen.minecraft;
         Collection<MobEffectInstance> activeEffects = minecraft.player.getActiveEffects();
 
         int verticalOffset = 33;
@@ -35,15 +35,15 @@ public class InventoryTooltipHandler {
             verticalOffset = 132 / (activeEffects.size() - 1);
         }
 
-        final int mouseX = ScreenHelper.INSTANCE.getMouseX(minecraft);
-        final int mouseY = ScreenHelper.INSTANCE.getMouseY(minecraft);
+        final int mouseX = ScreenHelper.getMouseX();
+        final int mouseY = ScreenHelper.getMouseY();
 
         int widgetWidth = !smallWidgets.getAsBoolean() ? 121 : 33;
         List<MobEffectInstance> filteredEffects = activeEffects.stream().filter(ClientAbstractions.INSTANCE::shouldRenderEffect).sorted().toList();
 
         if (mouseX >= horizontalOffset.getAsInt() && mouseX <= horizontalOffset.getAsInt() + widgetWidth) {
 
-            int posY = ScreenHelper.INSTANCE.getTopPos((AbstractContainerScreen<?>) screen);
+            int posY = ((AbstractContainerScreen<?>) screen).topPos;
             MobEffectInstance hovered = null;
 
             for (MobEffectInstance mobEffectInstance : filteredEffects) {
@@ -66,7 +66,7 @@ public class InventoryTooltipHandler {
 
                 if (!lines.isEmpty()) {
 
-                    screen.setTooltipForNextRenderPass(ScreenTooltipFactory.create(lines), DefaultTooltipPositioner.INSTANCE, true);
+                    screen.setTooltipForNextRenderPass(ClientComponentSplitter.splitTooltipLines(lines).toList(), DefaultTooltipPositioner.INSTANCE, true);
                 }
             }
         }
