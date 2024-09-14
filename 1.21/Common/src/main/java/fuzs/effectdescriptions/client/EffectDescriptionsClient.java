@@ -1,7 +1,8 @@
 package fuzs.effectdescriptions.client;
 
+import fuzs.effectdescriptions.client.handler.FoodTooltipHandler;
 import fuzs.effectdescriptions.client.handler.InventoryTooltipHandler;
-import fuzs.effectdescriptions.client.handler.ItemTooltipHandler;
+import fuzs.effectdescriptions.client.handler.DescriptionTooltipHandler;
 import fuzs.puzzleslib.api.client.core.v1.ClientModConstructor;
 import fuzs.puzzleslib.api.client.event.v1.gui.InventoryMobEffectsCallback;
 import fuzs.puzzleslib.api.client.event.v1.gui.ItemTooltipCallback;
@@ -16,7 +17,8 @@ public class EffectDescriptionsClient implements ClientModConstructor {
     }
 
     private static void registerHandlers() {
-        ItemTooltipCallback.EVENT.register(ItemTooltipHandler::onItemTooltip);
+        ItemTooltipCallback.EVENT.register(EventPhase.AFTER, DescriptionTooltipHandler::onItemTooltip);
+        ItemTooltipCallback.EVENT.register(EventPhase.BEFORE, FoodTooltipHandler::onItemTooltip);
         if (!ModLoaderEnvironment.INSTANCE.isModLoaded("stylisheffects") && !ModLoaderEnvironment.INSTANCE.isModLoaded("jeed")) {
             InventoryMobEffectsCallback.EVENT.register(EventPhase.LAST, InventoryTooltipHandler::onInventoryMobEffects);
         }

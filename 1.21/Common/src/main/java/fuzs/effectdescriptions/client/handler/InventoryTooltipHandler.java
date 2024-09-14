@@ -59,7 +59,7 @@ public class InventoryTooltipHandler {
 
                 List<Component> lines = Lists.newArrayList();
                 EffectLinesHelper.tryAddDisplayName(minecraft, lines, hovered, smallWidgets.getAsBoolean());
-                EffectLinesHelper.getEffectDescriptionComponent(hovered.getDescriptionId(), true).ifPresent(lines::add);
+                EffectLinesHelper.getEffectDescriptionComponent(hovered.getDescriptionId()).ifPresent(lines::add);
                 EffectLinesHelper.tryAddAttributes(lines, hovered);
                 EffectLinesHelper.tryAddInternalName(lines, hovered);
                 EffectLinesHelper.tryAddModName(lines, hovered);

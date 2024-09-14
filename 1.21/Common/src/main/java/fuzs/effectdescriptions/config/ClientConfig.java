@@ -18,6 +18,8 @@ public class ClientConfig implements ConfigCore {
     public boolean itemDescription = true;
     @Config(name = "supported_items", category = KEY_ITEMS_CATEGORY, description = {"Items that should support descriptions for the effects on their inventory tooltip.", ConfigDataSet.CONFIG_DESCRIPTION})
     List<String> supportedItemsRaw = KeyedValueProvider.toString(Registries.ITEM, Items.POTION, Items.SPLASH_POTION, Items.LINGERING_POTION, Items.TIPPED_ARROW, Items.SUSPICIOUS_STEW);
+    @Config(category = KEY_ITEMS_CATEGORY, description = "Add effects to food tooltips.")
+    public boolean foodEffects = true;
     @Config(description = "Amount of spaces to add at the beginning of an effect description.")
     @Config.IntRange(min = 0, max = 24)
     public int descriptionIndentation = 0;

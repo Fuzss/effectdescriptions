@@ -19,7 +19,6 @@ import net.minecraft.world.effect.MobEffectUtil;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.item.component.ItemAttributeModifiers;
-import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
@@ -27,19 +26,13 @@ import java.util.Optional;
 
 public class EffectLinesHelper {
 
-    public static Optional<Component> getEffectDescriptionComponent(String id, boolean preventIndentation) {
+    public static Optional<Component> getEffectDescriptionComponent(String id) {
 
         String descriptionKey = getDescriptionTranslationKey(id);
         if (descriptionKey != null) {
 
-            MutableComponent component = Component.translatable(descriptionKey);
-            if (!preventIndentation) {
-
-                int indentation = EffectDescriptions.CONFIG.get(ClientConfig.class).descriptionIndentation;
-                if (indentation > 0) component = Component.literal(StringUtils.repeat(" ", indentation)).append(component);
-            }
-
-            return Optional.of(component.withStyle(ChatFormatting.GRAY));
+            Component component = Component.translatable(descriptionKey).withStyle(ChatFormatting.GRAY);
+            return Optional.of(component);
         }
 
         return Optional.empty();
