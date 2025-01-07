@@ -2,77 +2,56 @@ package fuzs.effectdescriptions.config;
 
 import fuzs.puzzleslib.api.config.v3.Config;
 import fuzs.puzzleslib.api.config.v3.ConfigCore;
-import fuzs.puzzleslib.api.config.v3.serialization.ConfigDataSet;
-import fuzs.puzzleslib.api.config.v3.serialization.KeyedValueProvider;
 import net.minecraft.client.gui.screens.Screen;
-import net.minecraft.core.registries.Registries;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.Items;
 
-import java.util.List;
 import java.util.function.BooleanSupplier;
 
 public class ClientConfig implements ConfigCore {
-    static final String KEY_ITEMS_CATEGORY = "items";
-    static final String KEY_WIDGETS_CATEGORY = "widgets";
-
     @Config(
-            description = "Add effect description to item tooltips."
+            description = "Add effect descriptions to item tooltips."
     )
     public ItemEffectDescription itemDescriptions = ItemEffectDescription.ALWAYS;
+    @Config
+    public final ItemDescriptionTargets itemDescriptionTargets = new ItemDescriptionTargets();
     @Config(
-            name = "supported_items", category = KEY_ITEMS_CATEGORY, description = {
-            "Items that should support descriptions for the effects on their inventory tooltip.",
-            ConfigDataSet.CONFIG_DESCRIPTION
-    }
-    )
-    List<String> supportedItemsRaw = KeyedValueProvider.tagAppender(Registries.ITEM)
-            .add(Items.POTION,
-                    Items.SPLASH_POTION,
-                    Items.LINGERING_POTION,
-                    Items.TIPPED_ARROW,
-                    Items.SUSPICIOUS_STEW,
-                    Items.OMINOUS_BOTTLE)
-            .asStringList();
-    @Config(
-            category = KEY_ITEMS_CATEGORY,
-            description = "Add effects to food tooltips. The option is separate from adding effect descriptions."
-    )
-    public boolean foodEffects = true;
-    @Config(
-            description = "Add effect description to effect widget tooltips in the survival and creative inventory screens."
+            description = "Add rich tooltips including effect descriptions to effect widgets in inventory screens."
     )
     public boolean widgetTooltips = true;
-    @Config(
-            category = KEY_WIDGETS_CATEGORY,
-            description = "Add the effect name and duration to effect widget tooltips."
-    )
-    public boolean name = true;
-    @Config(
-            category = KEY_WIDGETS_CATEGORY,
-            description = "Add the effect description to effect widget tooltips."
-    )
-    public boolean description = true;
-    @Config(
-            category = KEY_WIDGETS_CATEGORY,
-            description = "Add attributes granted by an effect to effect widget tooltips."
-    )
-    public boolean attributes = true;
-    @Config(
-            category = KEY_WIDGETS_CATEGORY, description = "Add the internal id of an effect to effect widget tooltips."
-    )
-    public boolean internalName = false;
-    @Config(
-            category = KEY_WIDGETS_CATEGORY,
-            description = "Add the name of the mod that added an effect to effect widget tooltips."
-    )
-    public boolean modName = false;
+    @Config
+    public final WidgetTooltipComponents widgetTooltipComponents = new WidgetTooltipComponents();
 
-    public ConfigDataSet<Item> supportedItems;
+    public static class ItemDescriptionTargets implements ConfigCore {
+        @Config(description = "Add effect descriptions to potion items, e.g. potion, splash potion, lingering potion, and tipped arrow.")
+        public boolean potionContents = true;
+        @Config(description = "Add effect descriptions to food items, e.g. rotten flesh and raw chicken.")
+        public boolean consumable = true;
+        @Config(description = "Add effect descriptions to ominous bottle items.")
+        public boolean ominousBottle = true;
+        @Config(description = "Add effect descriptions to suspicious stew items.")
+        public boolean suspiciousStew = true;
+    }
 
-    @Override
-    public void afterConfigReload() {
-        this.supportedItems = ConfigDataSet.from(Registries.ITEM, this.supportedItemsRaw);
+    public static class WidgetTooltipComponents implements ConfigCore {
+        @Config(
+                description = "Add the effect name and duration to effect widget tooltips."
+        )
+        public boolean effectName = true;
+        @Config(
+                description = "Add the effect description to effect widget tooltips."
+        )
+        public boolean effectDescription = true;
+        @Config(
+                description = "Add attributes granted by an effect to effect widget tooltips."
+        )
+        public boolean effectAttributes = true;
+        @Config(
+                description = "Add the name of the mod that added an effect to effect widget tooltips."
+        )
+        public boolean modName = false;
+        @Config(
+                description = "Add the internal id of an effect to effect widget tooltips."
+        )
+        public boolean internalEffectName = false;
     }
 
     public enum ItemEffectDescription {

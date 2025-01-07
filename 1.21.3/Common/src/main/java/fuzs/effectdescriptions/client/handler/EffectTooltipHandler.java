@@ -27,10 +27,6 @@ public class EffectTooltipHandler {
 
     public static void onItemTooltip(ItemStack itemStack, List<Component> tooltipLines, Item.TooltipContext tooltipContext, @Nullable Player player, TooltipFlag tooltipFlag) {
         if (!EffectDescriptions.CONFIG.get(ClientConfig.class).itemDescriptions.isActive.getAsBoolean()) return;
-        if (!EffectDescriptions.CONFIG.get(ClientConfig.class).supportedItems.contains(itemStack.getItem()) &&
-                !itemStack.has(DataComponents.CONSUMABLE)) {
-            return;
-        }
         Map<String, MobEffectInstance> mobEffects = MobEffectSuppliers.getMobEffects(itemStack)
                 .stream()
                 .collect(Collectors.toMap(MobEffectInstance::getDescriptionId, Function.identity()));

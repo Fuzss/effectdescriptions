@@ -24,7 +24,7 @@ import java.util.function.BooleanSupplier;
 import java.util.function.Function;
 
 public final class EffectTooltipSuppliers {
-    public static final MobEffectComponentProvider NAME = register(() -> EffectDescriptions.CONFIG.get(ClientConfig.class).name,
+    public static final MobEffectComponentProvider NAME = register(() -> EffectDescriptions.CONFIG.get(ClientConfig.class).widgetTooltipComponents.effectName,
             (List<? extends Component> list, Integer index) -> {
                 if (index != -1) {
                     return list.subList(0, index);
@@ -33,7 +33,7 @@ public final class EffectTooltipSuppliers {
                 }
             });
     public static final MobEffectComponentProvider DESCRIPTION = new MobEffectComponentProviderImpl(() -> EffectDescriptions.CONFIG.get(
-            ClientConfig.class).description, (MobEffectInstance mobEffectInstance) -> {
+            ClientConfig.class).widgetTooltipComponents.effectDescription, (MobEffectInstance mobEffectInstance) -> {
         String translationKey = getDescriptionTranslationKey(mobEffectInstance.getDescriptionId());
         if (translationKey != null) {
             return Collections.singletonList((Component) Component.translatable(translationKey)
@@ -43,14 +43,14 @@ public final class EffectTooltipSuppliers {
         }
     });
     public static final MobEffectComponentProvider ATTRIBUTES = register(() -> EffectDescriptions.CONFIG.get(
-            ClientConfig.class).attributes, (List<? extends Component> list, Integer index) -> {
+            ClientConfig.class).widgetTooltipComponents.effectAttributes, (List<? extends Component> list, Integer index) -> {
         if (index != -1) {
             return list.subList(index, list.size());
         } else {
             return Collections.emptyList();
         }
     });
-    public static final MobEffectComponentProvider MOD_NAME = register(() -> EffectDescriptions.CONFIG.get(ClientConfig.class).modName,
+    public static final MobEffectComponentProvider MOD_NAME = register(() -> EffectDescriptions.CONFIG.get(ClientConfig.class).widgetTooltipComponents.modName,
             (ResourceLocation resourceLocation) -> {
                 return ModLoaderEnvironment.INSTANCE.getModContainer(resourceLocation.getNamespace())
                         .map(ModContainer::getDisplayName)
@@ -59,7 +59,7 @@ public final class EffectTooltipSuppliers {
                         .orElseGet(Collections::emptyList);
             });
     public static final MobEffectComponentProvider INTERNAL_NAME = register(() -> EffectDescriptions.CONFIG.get(
-            ClientConfig.class).internalName, (ResourceLocation resourceLocation) -> {
+            ClientConfig.class).widgetTooltipComponents.internalEffectName, (ResourceLocation resourceLocation) -> {
         return Collections.singletonList(Component.literal(resourceLocation.toString())
                 .withStyle(ChatFormatting.DARK_GRAY));
     });

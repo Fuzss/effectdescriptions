@@ -1,6 +1,8 @@
 package fuzs.effectdescriptions.client.helper;
 
 import com.google.common.collect.Lists;
+import fuzs.effectdescriptions.EffectDescriptions;
+import fuzs.effectdescriptions.config.ClientConfig;
 import net.minecraft.core.component.DataComponentType;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -16,15 +18,19 @@ import net.minecraft.world.item.consume_effects.ConsumeEffect;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.function.BooleanSupplier;
 import java.util.function.Function;
 import java.util.stream.StreamSupport;
 
 public final class MobEffectSuppliers {
-    private static final Impl<PotionContents> POTION_CONTENTS = new Impl<>(DataComponents.POTION_CONTENTS,
+    private static final Impl<PotionContents> POTION_CONTENTS = new Impl<>(() -> EffectDescriptions.CONFIG.get(
+            ClientConfig.class).itemDescriptionTargets.potionContents,
+            DataComponents.POTION_CONTENTS,
             (PotionContents potionContents) -> {
                 return StreamSupport.stream(potionContents.getAllEffects().spliterator(), false).toList();
             });
-    private static final Impl<Consumable> CONSUMABLE = new Impl<>(DataComponents.CONSUMABLE,
+    private static final Impl<Consumable> CONSUMABLE = new Impl<>(() -> EffectDescriptions.CONFIG.get(ClientConfig.class).itemDescriptionTargets.consumable,
+            DataComponents.CONSUMABLE,
             (Consumable consumable) -> {
                 List<MobEffectInstance> list = new ArrayList<>();
                 for (ConsumeEffect consumeEffect : consumable.onConsumeEffects()) {
@@ -34,7 +40,9 @@ public final class MobEffectSuppliers {
                 }
                 return list;
             });
-    private static final Impl<OminousBottleAmplifier> OMINOUS_BOTTLE_AMPLIFIER = new Impl<>(DataComponents.OMINOUS_BOTTLE_AMPLIFIER,
+    private static final Impl<OminousBottleAmplifier> OMINOUS_BOTTLE_AMPLIFIER = new Impl<>(() -> EffectDescriptions.CONFIG.get(
+            ClientConfig.class).itemDescriptionTargets.ominousBottle,
+            DataComponents.OMINOUS_BOTTLE_AMPLIFIER,
             (OminousBottleAmplifier ominousBottleAmplifier) -> {
                 // copied from OminousBottleAmplifier implementation
                 return Collections.singletonList(new MobEffectInstance(MobEffects.BAD_OMEN,
@@ -44,7 +52,9 @@ public final class MobEffectSuppliers {
                         false,
                         true));
             });
-    private static final Impl<SuspiciousStewEffects> SUSPICIOUS_STEW_EFFECTS = new Impl<>(DataComponents.SUSPICIOUS_STEW_EFFECTS,
+    private static final Impl<SuspiciousStewEffects> SUSPICIOUS_STEW_EFFECTS = new Impl<>(() -> EffectDescriptions.CONFIG.get(
+            ClientConfig.class).itemDescriptionTargets.suspiciousStew,
+            DataComponents.SUSPICIOUS_STEW_EFFECTS,
             (SuspiciousStewEffects suspiciousStewEffects) -> {
                 return Lists.transform(suspiciousStewEffects.effects(),
                         SuspiciousStewEffects.Entry::createEffectInstance);
@@ -66,10 +76,12 @@ public final class MobEffectSuppliers {
         return Collections.emptyList();
     }
 
-    private record Impl<T>(DataComponentType<T> dataComponentType, Function<T, List<MobEffectInstance>> extractor) {
+    private record Impl<T>(BooleanSupplier isEnabled,
+                           DataComponentType<T> dataComponentType,
+                           Function<T, List<MobEffectInstance>> extractor) {
 
         public List<MobEffectInstance> getMobEffects(ItemStack itemStack) {
-            if (itemStack.has(this.dataComponentType)) {
+            if (this.isEnabled.getAsBoolean() && itemStack.has(this.dataComponentType)) {
                 T dataComponent = itemStack.get(this.dataComponentType);
                 return this.extractor.apply(dataComponent);
             } else {

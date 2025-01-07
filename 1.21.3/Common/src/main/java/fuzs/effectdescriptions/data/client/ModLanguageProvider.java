@@ -107,7 +107,7 @@ public class ModLanguageProvider extends AbstractLanguageProvider {
         builder.add("effect.via_romana.travellers_fatigue.desc", "Prevents fast traveling.");
         builder.add("effect.via_romana.travellers_fatigue.description", "Prevents fast traveling.");
         builder.add("effect.enderzoology.displacement.desc", "Randomly teleports opponents upon receiving damage.");
-        builder.add("effect.longshot.longshot.description", "Increases projectile velocity and damage dealt");
+        builder.add("effect.longshot.longshot.description", "Increases projectile velocity and damage dealt.");
     }
 
     static void addMobEffect(TranslationBuilder builder, Holder<MobEffect> mobEffect, String value) {

@@ -25,7 +25,7 @@ import java.util.Set;
 public class FoodTooltipHandler {
 
     public static void onItemTooltip(ItemStack itemStack, List<Component> tooltipLines, Item.TooltipContext tooltipContext, @Nullable Player player, TooltipFlag tooltipFlag) {
-        if (!EffectDescriptions.CONFIG.get(ClientConfig.class).foodEffects) return;
+        if (!EffectDescriptions.CONFIG.get(ClientConfig.class).itemDescriptionTargets.consumable) return;
         if (itemStack.has(DataComponents.CONSUMABLE)) {
             List<ApplyStatusEffectsConsumeEffect> consumeEffects = new ArrayList<>();
             for (ConsumeEffect consumeEffect : itemStack.get(DataComponents.CONSUMABLE).onConsumeEffects()) {

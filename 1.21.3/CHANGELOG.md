@@ -6,3 +6,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [v21.3.0-1.21.3] - 2025-01-07
 - Port to Minecraft 1.21.3
+### Added
+- Add missing support for Ominous Bottles
+### Changed
+- Rework config file
+- Adjust food effects handling to hopefully not lead to duplicate tooltip entries when another mod has already added them

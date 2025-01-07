@@ -3,7 +3,7 @@ package fuzs.effectdescriptions.client.handler;
 import fuzs.effectdescriptions.EffectDescriptions;
 import fuzs.effectdescriptions.client.helper.EffectTooltipSuppliers;
 import fuzs.effectdescriptions.config.ClientConfig;
-import fuzs.effectdescriptions.services.ClientAbstractions;
+import fuzs.puzzleslib.api.client.core.v1.ClientAbstractions;
 import fuzs.puzzleslib.api.client.gui.v2.components.tooltip.ClientComponentSplitter;
 import fuzs.puzzleslib.api.client.gui.v2.screen.ScreenHelper;
 import fuzs.puzzleslib.api.event.v1.core.EventResult;
@@ -60,7 +60,7 @@ public class EffectWidgetHandler {
     private static Collection<MobEffectInstance> getVisibleMobEffects() {
         return Minecraft.getInstance().player.getActiveEffects()
                 .stream()
-                .filter(ClientAbstractions.INSTANCE::shouldRenderEffect)
+                .filter(ClientAbstractions.INSTANCE::isEffectVisibleInInventory)
                 .sorted()
                 .toList();
     }
