@@ -1,6 +1,6 @@
-package fuzs.effectdescriptions.fabric.client.core;
+package fuzs.effectdescriptions.fabric.services;
 
-import fuzs.effectdescriptions.client.core.ClientAbstractions;
+import fuzs.effectdescriptions.services.ClientAbstractions;
 import net.minecraft.world.effect.MobEffectInstance;
 
 public class FabricClientAbstractions implements ClientAbstractions {

@@ -1,6 +1,6 @@
-package fuzs.effectdescriptions.neoforge.client.core;
+package fuzs.effectdescriptions.neoforge.services;
 
-import fuzs.effectdescriptions.client.core.ClientAbstractions;
+import fuzs.effectdescriptions.services.ClientAbstractions;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.neoforged.neoforge.client.ClientHooks;
 

@@ -4,45 +4,90 @@ import fuzs.effectdescriptions.EffectDescriptions;
 import fuzs.effectdescriptions.config.ClientConfig;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.component.DataComponents;
+import net.minecraft.network.chat.CommonComponents;
 import net.minecraft.network.chat.Component;
 import net.minecraft.util.Mth;
+import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.alchemy.PotionContents;
+import net.minecraft.world.item.consume_effects.ApplyStatusEffectsConsumeEffect;
+import net.minecraft.world.item.consume_effects.ConsumeEffect;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 
 public class FoodTooltipHandler {
 
-    public static void onItemTooltip(ItemStack itemStack, List<Component> lines, Item.TooltipContext tooltipContext, @Nullable Player player, TooltipFlag tooltipFlag) {
+    public static void onItemTooltip(ItemStack itemStack, List<Component> tooltipLines, Item.TooltipContext tooltipContext, @Nullable Player player, TooltipFlag tooltipFlag) {
         if (!EffectDescriptions.CONFIG.get(ClientConfig.class).foodEffects) return;
-        if (itemStack.has(DataComponents.FOOD)) {
-            FoodProperties foodProperties = itemStack.get(DataComponents.FOOD);
-            List<Component> effectLines = new ArrayList<>();
-            for (FoodProperties.PossibleEffect effect : foodProperties.effects()) {
-                float[] effectProbability = new float[]{effect.probability()};
-                PotionContents.addPotionTooltip(Collections.singleton(effect.effect()),
-                        (Component component) -> {
-                    if (effectProbability[0] != 1.0F) {
-                        int intEffectProbability = Mth.floor(effectProbability[0] * 100.0F);
-                        component = Component.empty().append(component).append(" (" + intEffectProbability + "%)").withStyle(
-                                ChatFormatting.GOLD);
-                        effectProbability[0] = 1.0F;
+        if (itemStack.has(DataComponents.CONSUMABLE)) {
+            List<ApplyStatusEffectsConsumeEffect> consumeEffects = new ArrayList<>();
+            for (ConsumeEffect consumeEffect : itemStack.get(DataComponents.CONSUMABLE).onConsumeEffects()) {
+                if (consumeEffect instanceof ApplyStatusEffectsConsumeEffect applyStatusEffectsConsumeEffect) {
+                    consumeEffects.add(applyStatusEffectsConsumeEffect);
+                }
+            }
+            if (!consumeEffects.isEmpty()) {
+                // collect all possible effect description ids, to guard against other mods
+                // maybe already adding their potion effects to food tooltips (like Farmer's Delight)
+                Set<String> translationKeys = EffectTooltipHandler.getAllTranslationKeys(tooltipLines);
+                List<Component> potionLines = new ArrayList<>();
+                List<Component> attributeLines = new ArrayList<>();
+                for (ApplyStatusEffectsConsumeEffect consumeEffect : consumeEffects) {
+                    for (MobEffectInstance mobEffectInstance : consumeEffect.effects()) {
+                        if (!translationKeys.contains(mobEffectInstance.getDescriptionId())) {
+                            collectPotionTooltipLines(mobEffectInstance,
+                                    tooltipContext.tickRate(),
+                                    consumeEffect.probability(),
+                                    potionLines,
+                                    attributeLines);
+                        }
                     }
-                            effectLines.add(component);
-                        }, 1.0F, tooltipContext.tickRate());
+                }
+                addPotionTooltipLines(tooltipLines, potionLines, attributeLines);
             }
-            if (lines.isEmpty()) {
-                lines.addAll(effectLines);
+        }
+    }
+
+    private static void collectPotionTooltipLines(MobEffectInstance mobEffectInstance, float tickRate, float probability, List<Component> potionLines, List<Component> attributeLines) {
+        List<Component> potionTooltip = new ArrayList<>();
+        PotionContents.addPotionTooltip(Collections.singleton(mobEffectInstance), potionTooltip::add, 1.0F, tickRate);
+        if (!potionTooltip.isEmpty()) {
+            if (probability != 1.0F) {
+                String s = Mth.floor(probability * 100.0F) + "%";
+                potionTooltip.set(0,
+                        Component.translatable("potion.withDuration", potionTooltip.getFirst(), s)
+                                .withStyle(ChatFormatting.GOLD));
+            }
+            int index = potionTooltip.indexOf(CommonComponents.EMPTY);
+            if (index != -1) {
+                potionLines.addAll(potionTooltip.subList(0, index));
+                attributeLines.addAll(potionTooltip.subList(index + 1, potionTooltip.size()));
             } else {
-                lines.addAll(1, effectLines);
+                potionLines.addAll(potionTooltip);
             }
+        }
+    }
+
+    private static void addPotionTooltipLines(List<Component> tooltipLines, List<Component> potionLines, List<Component> attributeLines) {
+        if (tooltipLines.isEmpty()) {
+            tooltipLines.addAll(potionLines);
+            if (!attributeLines.isEmpty()) {
+                tooltipLines.add(CommonComponents.EMPTY);
+                tooltipLines.addAll(attributeLines);
+            }
+        } else {
+            if (!attributeLines.isEmpty()) {
+                tooltipLines.addAll(1, attributeLines);
+                tooltipLines.add(1, CommonComponents.EMPTY);
+            }
+            tooltipLines.addAll(1, potionLines);
         }
     }
 }
