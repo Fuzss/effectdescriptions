@@ -28,12 +28,14 @@ public class ModLanguageProvider extends AbstractLanguageProvider {
         addMobEffect(builder,
                 MobEffects.FIRE_RESISTANCE,
                 "Prevents taking damage from fire sources, like fire and lava.");
-        addMobEffect(builder, MobEffects.WATER_BREATHING, "Prevents losing air underwater and drowning.");
-        addMobEffect(builder, MobEffects.INVISIBILITY, "Grants invisibility, and reduces other mobs' detection range.");
+        addMobEffect(builder, MobEffects.WATER_BREATHING, "Prevents drowning and enables breathing underwater.");
+        addMobEffect(builder,
+                MobEffects.INVISIBILITY,
+                "Grants invisibility, and reduces the detection range of other mobs.");
         addMobEffect(builder,
                 MobEffects.BLINDNESS,
-                "Impairs vision and disables the ability to sprint and critical hit.");
-        addMobEffect(builder, MobEffects.NIGHT_VISION, "Lets the player see well in darkness and underwater.");
+                "Impairs vision by adding close black fog and disables the ability to sprint and critical hit.");
+        addMobEffect(builder, MobEffects.NIGHT_VISION, "Improves sight in dark areas and underwater.");
         addMobEffect(builder, MobEffects.HUNGER, "Depletes hunger and saturation.");
         addMobEffect(builder, MobEffects.WEAKNESS, "Decreases melee damage dealt.");
         addMobEffect(builder, MobEffects.POISON, "Inflicts non-lethal damage over time.");
@@ -50,11 +52,23 @@ public class ModLanguageProvider extends AbstractLanguageProvider {
                 MobEffects.CONDUIT_POWER,
                 "Prevents drowning, increases underwater visibility and mining speed.");
         addMobEffect(builder, MobEffects.DOLPHINS_GRACE, "Increases swimming speed.");
-        addMobEffect(builder, MobEffects.BAD_OMEN, "Causes an illager raid to start upon entering a village.");
+        addMobEffect(builder,
+                MobEffects.BAD_OMEN,
+                "Causes an ominous event upon entering a village or the trial chambers.");
         addMobEffect(builder,
                 MobEffects.HERO_OF_THE_VILLAGE,
                 "Gives discounts on trades with villagers, and makes villagers throw gifts.");
-        addMobEffect(builder, MobEffects.DARKNESS, "Darkens the screen.");
+        addMobEffect(builder, MobEffects.DARKNESS, "Adds pulsating black fog and darkens the screen.");
+        addMobEffect(builder, MobEffects.TRIAL_OMEN, "Transforms nearby trial spawners into ominous trial spawners.");
+        addMobEffect(builder,
+                MobEffects.RAID_OMEN,
+                "Causes an illager raid to start upon entering a village, once the effect expires.");
+        addMobEffect(builder, MobEffects.WIND_CHARGED, "Affected entities emit a burst of wind upon death.");
+        addMobEffect(builder, MobEffects.WEAVING, "Affected entities spread cobweb blocks upon death.");
+        addMobEffect(builder, MobEffects.OOZING, "Makes the entity spawn two slimes upon death.");
+        addMobEffect(builder,
+                MobEffects.INFESTED,
+                "Gives the entity a 10% chance to spawn between 1 and 3 silverfish when hurt.");
         builder.add("effect.deeperdarker.sculk_affinity.desc",
                 "Prevents the player from emitting vibrations and being heard.");
         builder.add("effect.alexscaves.deepsight.desc", "Increases visibility underwater. May conflict with shaders.");
