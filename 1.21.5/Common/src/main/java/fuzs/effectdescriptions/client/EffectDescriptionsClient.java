@@ -1,8 +1,10 @@
 package fuzs.effectdescriptions.client;
 
+import fuzs.effectdescriptions.EffectDescriptions;
 import fuzs.effectdescriptions.client.handler.EffectTooltipHandler;
-import fuzs.effectdescriptions.client.handler.FoodTooltipHandler;
 import fuzs.effectdescriptions.client.handler.EffectWidgetHandler;
+import fuzs.effectdescriptions.client.handler.FoodTooltipHandler;
+import fuzs.effectdescriptions.config.ClientConfig;
 import fuzs.puzzleslib.api.client.core.v1.ClientModConstructor;
 import fuzs.puzzleslib.api.client.event.v1.gui.GatherEffectScreenTooltipCallback;
 import fuzs.puzzleslib.api.client.event.v1.gui.InventoryMobEffectsCallback;
@@ -29,7 +31,9 @@ public class EffectDescriptionsClient implements ClientModConstructor {
                 !ModLoaderEnvironment.INSTANCE.isModLoaded("jeed")) {
             InventoryMobEffectsCallback.EVENT.register(EventPhase.LAST, EffectWidgetHandler::onInventoryMobEffects);
             GatherEffectScreenTooltipCallback.EVENT.register((AbstractContainerScreen<?> screen, MobEffectInstance mobEffectInstance, List<Component> tooltipLines) -> {
-                tooltipLines.clear();
+                if (EffectDescriptions.CONFIG.get(ClientConfig.class).widgetTooltips) {
+                    tooltipLines.clear();
+                }
             });
         }
     }

@@ -14,17 +14,17 @@ public class ModLanguageProvider extends AbstractLanguageProvider {
 
     @Override
     public void addTranslations(TranslationBuilder builder) {
-        addMobEffect(builder, MobEffects.MOVEMENT_SPEED, "Increases walking speed.");
-        addMobEffect(builder, MobEffects.MOVEMENT_SLOWDOWN, "Decreases walking speed.");
-        addMobEffect(builder, MobEffects.DIG_SPEED, "Increases mining and attack speed.");
-        addMobEffect(builder, MobEffects.DIG_SLOWDOWN, "Decreases mining and attack speed.");
-        addMobEffect(builder, MobEffects.DAMAGE_BOOST, "Increases melee damage dealt.");
-        addMobEffect(builder, MobEffects.HEAL, "Heals living entities, and damages undead.");
-        addMobEffect(builder, MobEffects.HARM, "Damages living entities, and heals undead.");
-        addMobEffect(builder, MobEffects.JUMP, "Increases jump height and reduces fall damage.");
-        addMobEffect(builder, MobEffects.CONFUSION, "Wobbles and warps the screen.");
+        addMobEffect(builder, MobEffects.SPEED, "Increases walking speed.");
+        addMobEffect(builder, MobEffects.SLOWNESS, "Decreases walking speed.");
+        addMobEffect(builder, MobEffects.HASTE, "Increases mining and attack speed.");
+        addMobEffect(builder, MobEffects.MINING_FATIGUE, "Decreases mining and attack speed.");
+        addMobEffect(builder, MobEffects.STRENGTH, "Increases melee damage dealt.");
+        addMobEffect(builder, MobEffects.INSTANT_HEALTH, "Heals living entities, and damages undead.");
+        addMobEffect(builder, MobEffects.INSTANT_DAMAGE, "Damages living entities, and heals undead.");
+        addMobEffect(builder, MobEffects.JUMP_BOOST, "Increases jump height and reduces fall damage.");
+        addMobEffect(builder, MobEffects.NAUSEA, "Wobbles and warps the screen.");
         addMobEffect(builder, MobEffects.REGENERATION, "Regenerates health over time.");
-        addMobEffect(builder, MobEffects.DAMAGE_RESISTANCE, "Reduces incoming damage.");
+        addMobEffect(builder, MobEffects.RESISTANCE, "Reduces incoming damage.");
         addMobEffect(builder,
                 MobEffects.FIRE_RESISTANCE,
                 "Prevents taking damage from fire sources, like fire and lava.");
