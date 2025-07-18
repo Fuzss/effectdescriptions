@@ -40,7 +40,7 @@ public class EffectWidgetHandler {
 
     public static void onDrawForeground(AbstractContainerScreen<?> screen, GuiGraphics guiGraphics, int mouseX, int mouseY) {
         if (tooltipLines != null) {
-            guiGraphics.setTooltipForNextFrame(screen.font,
+            guiGraphics.setTooltipForNextFrame(screen.getFont(),
                     tooltipLines,
                     DefaultTooltipPositioner.INSTANCE,
                     mouseX,
