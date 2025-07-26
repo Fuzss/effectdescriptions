@@ -4,8 +4,7 @@ import fuzs.effectdescriptions.EffectDescriptions;
 import fuzs.effectdescriptions.client.helper.EffectTooltipSuppliers;
 import fuzs.effectdescriptions.client.helper.MobEffectSuppliers;
 import fuzs.effectdescriptions.config.ClientConfig;
-import fuzs.puzzleslib.api.client.gui.v2.tooltip.ClientComponentSplitter;
-import fuzs.puzzleslib.api.util.v1.ComponentHelper;
+import fuzs.effectdescriptions.config.ItemEffectDescription;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.contents.TranslatableContents;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -25,22 +24,35 @@ import java.util.stream.Collectors;
 public class EffectTooltipHandler {
 
     public static void onItemTooltip(ItemStack itemStack, List<Component> tooltipLines, Item.TooltipContext tooltipContext, @Nullable Player player, TooltipFlag tooltipFlag) {
-        if (!EffectDescriptions.CONFIG.get(ClientConfig.class).itemDescriptions.isActive.getAsBoolean()) return;
+        ItemEffectDescription itemEffectDescription = EffectDescriptions.CONFIG.get(ClientConfig.class).itemDescriptions;
+        if (itemEffectDescription == ItemEffectDescription.NEVER && !itemEffectDescription.isActive()) {
+            return;
+        }
+
+        // an item can contain the same effect multiple times, so make sure to include a merge function in our collect call
         Map<String, MobEffectInstance> mobEffects = MobEffectSuppliers.getMobEffects(itemStack)
                 .stream()
-                .collect(Collectors.toMap(MobEffectInstance::getDescriptionId, Function.identity()));
+                .collect(Collectors.toMap(MobEffectInstance::getDescriptionId,
+                        Function.identity(),
+                        (MobEffectInstance o1, MobEffectInstance o2) -> o1));
+
         if (!mobEffects.isEmpty()) {
             for (int i = 0; i < tooltipLines.size(); i++) {
                 TranslatableContents contents = getTranslatableContents(tooltipLines.get(i));
+
                 if (contents != null) {
                     String translationKey = contents.getKey();
+
                     if (mobEffects.containsKey(translationKey)) {
-                        List<? extends Component> list = EffectTooltipSuppliers.DESCRIPTION.getRawMobEffectComponents(
-                                mobEffects.get(translationKey));
-                        tooltipLines.addAll(i + 1,
-                                ClientComponentSplitter.splitTooltipLines(list)
-                                        .map(ComponentHelper::toComponent)
-                                        .toList());
+                        if (itemEffectDescription.isActive()) {
+                            List<? extends Component> list = EffectTooltipSuppliers.DESCRIPTION.getRawMobEffectComponents(
+                                    mobEffects.get(translationKey));
+                            tooltipLines.addAll(i + 1, list);
+                        } else {
+                            // make sure the view description line is only added when there will actually be a description
+                            itemEffectDescription.processTooltipLines(itemStack, tooltipLines, tooltipFlag);
+                            break;
+                        }
                     }
                 }
             }
@@ -59,15 +71,15 @@ public class EffectTooltipHandler {
     }
 
     private static TranslatableContents getNestedTranslatableContents(TranslatableContents contents) {
-        if (contents.getArgs().length != 0 && contents.getArgs()[0] instanceof Component component &&
-                component.getContents() instanceof TranslatableContents innerContents) {
+        if (contents.getArgs().length != 0 && contents.getArgs()[0] instanceof Component component
+                && component.getContents() instanceof TranslatableContents innerContents) {
             return getNestedTranslatableContents(innerContents);
         } else {
             return contents;
         }
     }
 
-    static Set<String> getAllTranslationKeys(List<Component> tooltipLines) {
+    public static Set<String> getAllTranslationKeys(List<Component> tooltipLines) {
         return tooltipLines.stream().mapMulti((Component component, Consumer<TranslatableContents> consumer) -> {
             TranslatableContents contents = EffectTooltipHandler.getTranslatableContents(component);
             if (contents != null) {

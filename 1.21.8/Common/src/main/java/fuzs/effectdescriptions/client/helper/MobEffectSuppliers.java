@@ -71,8 +71,12 @@ public final class MobEffectSuppliers {
     public static List<MobEffectInstance> getMobEffects(ItemStack itemStack) {
         for (Impl<?> impl : MOB_EFFECTS_SUPPLIERS) {
             List<MobEffectInstance> list = impl.getMobEffects(itemStack);
-            if (!list.isEmpty()) return list;
+
+            if (!list.isEmpty()) {
+                return list;
+            }
         }
+
         return Collections.emptyList();
     }
 

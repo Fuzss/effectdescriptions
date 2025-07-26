@@ -2,6 +2,7 @@ package fuzs.effectdescriptions.client.helper;
 
 import fuzs.effectdescriptions.EffectDescriptions;
 import fuzs.effectdescriptions.config.ClientConfig;
+import fuzs.puzzleslib.api.client.gui.v2.tooltip.ClientComponentSplitter;
 import fuzs.puzzleslib.api.core.v1.ModContainer;
 import fuzs.puzzleslib.api.core.v1.ModLoaderEnvironment;
 import net.minecraft.ChatFormatting;
@@ -14,6 +15,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.TickRateManager;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.item.alchemy.PotionContents;
+import org.apache.commons.lang3.mutable.MutableBoolean;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
@@ -24,6 +26,8 @@ import java.util.function.BooleanSupplier;
 import java.util.function.Function;
 
 public final class EffectTooltipSuppliers {
+    public static final Component DEFAULT_DESCRIPTION_DECORATOR_COMPONENT = Component.literal(" \u25C6 ")
+            .withStyle(ChatFormatting.GRAY);
     public static final MobEffectComponentProvider NAME = register(() -> EffectDescriptions.CONFIG.get(ClientConfig.class).widgetTooltipComponents.effectName,
             (List<? extends Component> list, Integer index) -> {
                 if (index != -1) {
@@ -36,20 +40,42 @@ public final class EffectTooltipSuppliers {
             ClientConfig.class).widgetTooltipComponents.effectDescription, (MobEffectInstance mobEffectInstance) -> {
         String translationKey = getDescriptionTranslationKey(mobEffectInstance.getDescriptionId());
         if (translationKey != null) {
-            return Collections.singletonList((Component) Component.translatable(translationKey)
-                    .withStyle(ChatFormatting.GRAY));
+            Component coloredPrefixComponent = ComponentHelper.getAsComponent(EffectDescriptions.CONFIG.get(ClientConfig.class).descriptionDecorator);
+            // copy text only, without any style; also setting colour to black will make it barely visible on a tooltip background which we want
+            // alternatively create an empty component consisting of spaces with the same width,
+            // but that usually does not perfectly match up, so stick with the dying approach for now
+            Component invisiblePrefixComponent = Component.literal(coloredPrefixComponent.getString())
+                    .withStyle(ChatFormatting.BLACK);
+            MutableBoolean mutableBoolean = new MutableBoolean(true);
+            return ClientComponentSplitter.splitTooltipLines(Component.translatable(translationKey))
+                    .map(ComponentHelper::getAsComponent)
+                    .map((Component component) -> {
+                        Component newComponent;
+                        if (mutableBoolean.isTrue()) {
+                            mutableBoolean.setFalse();
+                            newComponent = coloredPrefixComponent;
+                        } else {
+                            newComponent = invisiblePrefixComponent;
+                        }
+                        return Component.empty()
+                                .append(newComponent)
+                                .append(component)
+                                .withStyle(coloredPrefixComponent.getStyle());
+                    })
+                    .toList();
         } else {
             return Collections.emptyList();
         }
     });
     public static final MobEffectComponentProvider ATTRIBUTES = register(() -> EffectDescriptions.CONFIG.get(
-            ClientConfig.class).widgetTooltipComponents.effectAttributes, (List<? extends Component> list, Integer index) -> {
-        if (index != -1) {
-            return list.subList(index, list.size());
-        } else {
-            return Collections.emptyList();
-        }
-    });
+                    ClientConfig.class).widgetTooltipComponents.effectAttributes,
+            (List<? extends Component> list, Integer index) -> {
+                if (index != -1) {
+                    return list.subList(index, list.size());
+                } else {
+                    return Collections.emptyList();
+                }
+            });
     public static final MobEffectComponentProvider MOD_NAME = register(() -> EffectDescriptions.CONFIG.get(ClientConfig.class).widgetTooltipComponents.modName,
             (ResourceLocation resourceLocation) -> {
                 return ModLoaderEnvironment.INSTANCE.getModContainer(resourceLocation.getNamespace())

@@ -74,5 +74,7 @@
   "effect.mynethersdelight.g_pungent.description": "Alleviates burning, regenerate health near heat sources with fire protection armor or fire resistance effect.",
   "effect.supplementaries.overencumbered.desc": "Prevents sprinting. Further levels reduce jump height hinder walking speed respectively",
   "effect.via_romana.travellers_fatigue.desc": "Prevents fast traveling.",
-  "effect.via_romana.travellers_fatigue.description": "Prevents fast traveling."
+  "effect.via_romana.travellers_fatigue.description": "Prevents fast traveling.",
+  "gui.effectdescriptions.tooltip.shift": "⇧ Shift",
+  "gui.effectdescriptions.tooltip.view_descriptions": "Hold %s to view descriptions."
 }

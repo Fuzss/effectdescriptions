@@ -25,14 +25,19 @@ import java.util.Set;
 public class FoodTooltipHandler {
 
     public static void onItemTooltip(ItemStack itemStack, List<Component> tooltipLines, Item.TooltipContext tooltipContext, @Nullable Player player, TooltipFlag tooltipFlag) {
-        if (!EffectDescriptions.CONFIG.get(ClientConfig.class).itemDescriptionTargets.consumable) return;
+        if (!EffectDescriptions.CONFIG.get(ClientConfig.class).itemDescriptionTargets.consumable) {
+            return;
+        }
+
         if (itemStack.has(DataComponents.CONSUMABLE)) {
             List<ApplyStatusEffectsConsumeEffect> consumeEffects = new ArrayList<>();
+
             for (ConsumeEffect consumeEffect : itemStack.get(DataComponents.CONSUMABLE).onConsumeEffects()) {
                 if (consumeEffect instanceof ApplyStatusEffectsConsumeEffect applyStatusEffectsConsumeEffect) {
                     consumeEffects.add(applyStatusEffectsConsumeEffect);
                 }
             }
+
             if (!consumeEffects.isEmpty()) {
                 // collect all possible effect description ids, to guard against other mods
                 // maybe already adding their potion effects to food tooltips (like Farmer's Delight)
@@ -50,6 +55,7 @@ public class FoodTooltipHandler {
                         }
                     }
                 }
+
                 addPotionTooltipLines(tooltipLines, potionLines, attributeLines);
             }
         }
@@ -65,6 +71,7 @@ public class FoodTooltipHandler {
                         Component.translatable("potion.withDuration", potionTooltip.getFirst(), s)
                                 .withStyle(ChatFormatting.GOLD));
             }
+
             int index = potionTooltip.indexOf(CommonComponents.EMPTY);
             if (index != -1) {
                 potionLines.addAll(potionTooltip.subList(0, index));
@@ -78,6 +85,7 @@ public class FoodTooltipHandler {
     private static void addPotionTooltipLines(List<Component> tooltipLines, List<Component> potionLines, List<Component> attributeLines) {
         if (tooltipLines.isEmpty()) {
             tooltipLines.addAll(potionLines);
+
             if (!attributeLines.isEmpty()) {
                 tooltipLines.add(CommonComponents.EMPTY);
                 tooltipLines.addAll(attributeLines);
@@ -87,6 +95,7 @@ public class FoodTooltipHandler {
                 tooltipLines.addAll(1, attributeLines);
                 tooltipLines.add(1, CommonComponents.EMPTY);
             }
+
             tooltipLines.addAll(1, potionLines);
         }
     }

@@ -1,9 +1,8 @@
 package fuzs.effectdescriptions.data.client;
 
+import fuzs.effectdescriptions.config.ItemEffectDescription;
 import fuzs.puzzleslib.api.client.data.v2.AbstractLanguageProvider;
 import fuzs.puzzleslib.api.data.v2.core.DataProviderContext;
-import net.minecraft.core.Holder;
-import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffects;
 
 public class ModLanguageProvider extends AbstractLanguageProvider {
@@ -13,118 +12,136 @@ public class ModLanguageProvider extends AbstractLanguageProvider {
     }
 
     @Override
-    public void addTranslations(TranslationBuilder builder) {
-        addMobEffect(builder, MobEffects.SPEED, "Increases walking speed.");
-        addMobEffect(builder, MobEffects.SLOWNESS, "Decreases walking speed.");
-        addMobEffect(builder, MobEffects.HASTE, "Increases mining and attack speed.");
-        addMobEffect(builder, MobEffects.MINING_FATIGUE, "Decreases mining and attack speed.");
-        addMobEffect(builder, MobEffects.STRENGTH, "Increases melee damage dealt.");
-        addMobEffect(builder, MobEffects.INSTANT_HEALTH, "Heals living entities, and damages undead.");
-        addMobEffect(builder, MobEffects.INSTANT_DAMAGE, "Damages living entities, and heals undead.");
-        addMobEffect(builder, MobEffects.JUMP_BOOST, "Increases jump height and reduces fall damage.");
-        addMobEffect(builder, MobEffects.NAUSEA, "Wobbles and warps the screen.");
-        addMobEffect(builder, MobEffects.REGENERATION, "Regenerates health over time.");
-        addMobEffect(builder, MobEffects.RESISTANCE, "Reduces incoming damage.");
-        addMobEffect(builder,
-                MobEffects.FIRE_RESISTANCE,
+    public void addTranslations(TranslationBuilder translationBuilder) {
+        translationBuilder.add(ItemEffectDescription.SHIFT_COMPONENT, "\u21E7 Shift");
+        translationBuilder.add(ItemEffectDescription.VIEW_DESCRIPTIONS_COMPONENT, "Hold %s to view descriptions.");
+        translationBuilder.add(MobEffects.SPEED.value(), "desc", "Increases walking speed.");
+        translationBuilder.add(MobEffects.SLOWNESS.value(), "desc", "Decreases walking speed.");
+        translationBuilder.add(MobEffects.HASTE.value(), "desc", "Increases mining and attack speed.");
+        translationBuilder.add(MobEffects.MINING_FATIGUE.value(), "desc", "Decreases mining and attack speed.");
+        translationBuilder.add(MobEffects.STRENGTH.value(), "desc", "Increases melee damage dealt.");
+        translationBuilder.add(MobEffects.INSTANT_HEALTH.value(), "desc", "Heals living entities, and damages undead.");
+        translationBuilder.add(MobEffects.INSTANT_DAMAGE.value(), "desc", "Damages living entities, and heals undead.");
+        translationBuilder.add(MobEffects.JUMP_BOOST.value(), "desc", "Increases jump height and reduces fall damage.");
+        translationBuilder.add(MobEffects.NAUSEA.value(), "desc", "Wobbles and warps the screen.");
+        translationBuilder.add(MobEffects.REGENERATION.value(), "desc", "Regenerates health over time.");
+        translationBuilder.add(MobEffects.RESISTANCE.value(), "desc", "Reduces incoming damage.");
+        translationBuilder.add(MobEffects.FIRE_RESISTANCE.value(),
+                "desc",
                 "Prevents taking damage from fire sources, like fire and lava.");
-        addMobEffect(builder, MobEffects.WATER_BREATHING, "Prevents drowning and enables breathing underwater.");
-        addMobEffect(builder,
-                MobEffects.INVISIBILITY,
+        translationBuilder.add(MobEffects.WATER_BREATHING.value(),
+                "desc",
+                "Prevents drowning and enables breathing underwater.");
+        translationBuilder.add(MobEffects.INVISIBILITY.value(),
+                "desc",
                 "Grants invisibility, and reduces the detection range of other mobs.");
-        addMobEffect(builder,
-                MobEffects.BLINDNESS,
+        translationBuilder.add(MobEffects.BLINDNESS.value(),
+                "desc",
                 "Impairs vision by adding close black fog and disables the ability to sprint and critical hit.");
-        addMobEffect(builder, MobEffects.NIGHT_VISION, "Improves sight in dark areas and underwater.");
-        addMobEffect(builder, MobEffects.HUNGER, "Depletes hunger and saturation.");
-        addMobEffect(builder, MobEffects.WEAKNESS, "Decreases melee damage dealt.");
-        addMobEffect(builder, MobEffects.POISON, "Inflicts non-lethal damage over time.");
-        addMobEffect(builder, MobEffects.WITHER, "Inflicts potentially lethal damage over time.");
-        addMobEffect(builder, MobEffects.HEALTH_BOOST, "Increases maximum health.");
-        addMobEffect(builder, MobEffects.ABSORPTION, "Temporarily adds additional hearts that can't be regenerated.");
-        addMobEffect(builder, MobEffects.SATURATION, "Restores hunger and saturation.");
-        addMobEffect(builder, MobEffects.GLOWING, "Outlines the affected entity.");
-        addMobEffect(builder, MobEffects.LEVITATION, "Floats the affected entity upward.");
-        addMobEffect(builder, MobEffects.LUCK, "Can increase chances of high-quality and more loot.");
-        addMobEffect(builder, MobEffects.UNLUCK, "Can reduce chances of high-quality and more loot.");
-        addMobEffect(builder, MobEffects.SLOW_FALLING, "Decreases falling speed and negates fall damage.");
-        addMobEffect(builder,
-                MobEffects.CONDUIT_POWER,
+        translationBuilder.add(MobEffects.NIGHT_VISION.value(), "desc", "Improves sight in dark areas and underwater.");
+        translationBuilder.add(MobEffects.HUNGER.value(), "desc", "Depletes hunger and saturation.");
+        translationBuilder.add(MobEffects.WEAKNESS.value(), "desc", "Decreases melee damage dealt.");
+        translationBuilder.add(MobEffects.POISON.value(), "desc", "Inflicts non-lethal damage over time.");
+        translationBuilder.add(MobEffects.WITHER.value(), "desc", "Inflicts potentially lethal damage over time.");
+        translationBuilder.add(MobEffects.HEALTH_BOOST.value(), "desc", "Increases maximum health.");
+        translationBuilder.add(MobEffects.ABSORPTION.value(),
+                "desc",
+                "Temporarily adds additional hearts that can't be regenerated.");
+        translationBuilder.add(MobEffects.SATURATION.value(), "desc", "Restores hunger and saturation.");
+        translationBuilder.add(MobEffects.GLOWING.value(), "desc", "Outlines the affected entity.");
+        translationBuilder.add(MobEffects.LEVITATION.value(), "desc", "Floats the affected entity upward.");
+        translationBuilder.add(MobEffects.LUCK.value(), "desc", "Can increase chances of high-quality and more loot.");
+        translationBuilder.add(MobEffects.UNLUCK.value(), "desc", "Can reduce chances of high-quality and more loot.");
+        translationBuilder.add(MobEffects.SLOW_FALLING.value(),
+                "desc",
+                "Decreases falling speed and negates fall damage.");
+        translationBuilder.add(MobEffects.CONDUIT_POWER.value(),
+                "desc",
                 "Prevents drowning, increases underwater visibility and mining speed.");
-        addMobEffect(builder, MobEffects.DOLPHINS_GRACE, "Increases swimming speed.");
-        addMobEffect(builder,
-                MobEffects.BAD_OMEN,
+        translationBuilder.add(MobEffects.DOLPHINS_GRACE.value(), "desc", "Increases swimming speed.");
+        translationBuilder.add(MobEffects.BAD_OMEN.value(),
+                "desc",
                 "Causes an ominous event upon entering a village or the trial chambers.");
-        addMobEffect(builder,
-                MobEffects.HERO_OF_THE_VILLAGE,
+        translationBuilder.add(MobEffects.HERO_OF_THE_VILLAGE.value(),
+                "desc",
                 "Gives discounts on trades with villagers, and makes villagers throw gifts.");
-        addMobEffect(builder, MobEffects.DARKNESS, "Adds pulsating black fog and darkens the screen.");
-        addMobEffect(builder, MobEffects.TRIAL_OMEN, "Transforms nearby trial spawners into ominous trial spawners.");
-        addMobEffect(builder,
-                MobEffects.RAID_OMEN,
+        translationBuilder.add(MobEffects.DARKNESS.value(), "desc", "Adds pulsating black fog and darkens the screen.");
+        translationBuilder.add(MobEffects.TRIAL_OMEN.value(),
+                "desc",
+                "Transforms nearby trial spawners into ominous trial spawners.");
+        translationBuilder.add(MobEffects.RAID_OMEN.value(),
+                "desc",
                 "Causes an illager raid to start upon entering a village, once the effect expires.");
-        addMobEffect(builder, MobEffects.WIND_CHARGED, "Affected entities emit a burst of wind upon death.");
-        addMobEffect(builder, MobEffects.WEAVING, "Affected entities spread cobweb blocks upon death.");
-        addMobEffect(builder, MobEffects.OOZING, "Makes the entity spawn two slimes upon death.");
-        addMobEffect(builder,
-                MobEffects.INFESTED,
+        translationBuilder.add(MobEffects.WIND_CHARGED.value(),
+                "desc",
+                "Affected entities emit a burst of wind upon death.");
+        translationBuilder.add(MobEffects.WEAVING.value(),
+                "desc",
+                "Affected entities spread cobweb blocks upon death.");
+        translationBuilder.add(MobEffects.OOZING.value(), "desc", "Makes the entity spawn two slimes upon death.");
+        translationBuilder.add(MobEffects.INFESTED.value(),
+                "desc",
                 "Gives the entity a 10% chance to spawn between 1 and 3 silverfish when hurt.");
-        builder.add("effect.deeperdarker.sculk_affinity.desc",
+        translationBuilder.add("effect.deeperdarker.sculk_affinity.desc",
                 "Prevents the player from emitting vibrations and being heard.");
-        builder.add("effect.alexscaves.deepsight.desc", "Increases visibility underwater. May conflict with shaders.");
-        builder.add("effect.alexscaves.magnetizing.desc",
+        translationBuilder.add("effect.alexscaves.deepsight.desc",
+                "Increases visibility underwater. May conflict with shaders.");
+        translationBuilder.add("effect.alexscaves.magnetizing.desc",
                 "Renders the inflicted with the ability to be pushed or pulled by magnetic forces without wearing metal armor.");
-        builder.add("effect.alexsmobs.bug_pheromones.desc", "Make hostile arthropods neutral to the user.");
-        builder.add("effect.alexsmobs.clinging.desc", "Allows walking upside-down on ceilings.");
-        builder.add("effect.alexsmobs.debilitating_sting.desc",
+        translationBuilder.add("effect.alexsmobs.bug_pheromones.desc", "Make hostile arthropods neutral to the user.");
+        translationBuilder.add("effect.alexsmobs.clinging.desc", "Allows walking upside-down on ceilings.");
+        translationBuilder.add("effect.alexsmobs.debilitating_sting.desc",
                 "An Effect which poisons the victim but paralyzes arthropods. It will stop if the victim is at half health and is not an arthropod. Inflicted by a Tarantula Hawk.");
-        builder.add("effect.alexsmobs.ender_flu.desc",
+        translationBuilder.add("effect.alexsmobs.ender_flu.desc",
                 "After the effect runs out naturally); the user takes massive damage and an Enderiophage will spawn. Inflicted by an Enderiophage.");
-        builder.add("effect.alexsmobs.exsanguination.desc", "Gradually drains health.");
-        builder.add("effect.alexsmobs.fear.desc",
+        translationBuilder.add("effect.alexsmobs.exsanguination.desc", "Gradually drains health.");
+        translationBuilder.add("effect.alexsmobs.fear.desc",
                 "Makes the target unable to move. Effect applied when a Tiger reveals itself to the user.");
-        builder.add("effect.alexsmobs.knockback_resistance.desc", "Provides 50% knockback resistance.");
-        builder.add("effect.alexsmobs.lava_vision.desc", "Allows seeing through lava.");
-        builder.add("effect.alexsmobs.oiled.desc",
+        translationBuilder.add("effect.alexsmobs.knockback_resistance.desc", "Provides 50% knockback resistance.");
+        translationBuilder.add("effect.alexsmobs.lava_vision.desc", "Allows seeing through lava.");
+        translationBuilder.add("effect.alexsmobs.oiled.desc",
                 "Oil floats on water. Cover yourself in oil to float on the surface of water and outside in the rain.");
-        builder.add("effect.alexsmobs.orcas_might.desc",
+        translationBuilder.add("effect.alexsmobs.orcas_might.desc",
                 "Grants increased attack speed. Effect may be applied when swimming with an Orca.");
-        builder.add("effect.alexsmobs.poison_resistance.desc", "Grants immunity to poison.");
-        builder.add("effect.alexsmobs.soulsteal.desc", "Grants the user attacks some life-steal.");
-        builder.add("effect.alexsmobs.sunbird_blessing.desc",
+        translationBuilder.add("effect.alexsmobs.poison_resistance.desc", "Grants immunity to poison.");
+        translationBuilder.add("effect.alexsmobs.soulsteal.desc", "Grants the user attacks some life-steal.");
+        translationBuilder.add("effect.alexsmobs.sunbird_blessing.desc",
                 "Decreases fall speed); prevents fall damage and makes it easier to fly with an Elytra or Tarantula Hawk Elytra. Effect is applied when near a Sunbird.");
-        builder.add("effect.alexsmobs.sunbird_curse.desc",
+        translationBuilder.add("effect.alexsmobs.sunbird_curse.desc",
                 "Increases fall speed); causing the user to hit the ground quicker. This effectively impedes the use of an Elytra. Effect is applied when attacking a Sunbird.");
-        builder.add("effect.alexsmobs.tigers_blessing.desc",
+        translationBuilder.add("effect.alexsmobs.tigers_blessing.desc",
                 "Tigers near the user will be neutral and will protect them from hostile foes. The effect will go away early when attacking a Tiger. Applied by feeding a Tiger chicken or pork chops.");
-        builder.add("effect.alexsmobs.earthquake.desc", "Shakes the user violently.");
-        builder.add("effect.alexsmobs.fleet_footed.desc", "Increases player speed whilst jumping and sprinting.");
-        builder.add("effect.alexsmobs.power_down.desc", "Hello, hello? Uhh, I wanted to record a message for you...");
-        builder.add("effect.alexsmobs.mosquito_repellent.desc", "Makes Crimson Mosquitoes avoid the player.");
-        builder.add("effect.farmersdelight.nourishment.desc", "Prevents hunger and saturation loss unless damaged.");
-        builder.add("effect.farmersdelight.comfort.desc", "Allows health regeneration with low hunger.");
-        builder.add("effect.farmersdelight.nourishment.description",
+        translationBuilder.add("effect.alexsmobs.earthquake.desc", "Shakes the user violently.");
+        translationBuilder.add("effect.alexsmobs.fleet_footed.desc",
+                "Increases player speed whilst jumping and sprinting.");
+        translationBuilder.add("effect.alexsmobs.power_down.desc",
+                "Hello, hello? Uhh, I wanted to record a message for you...");
+        translationBuilder.add("effect.alexsmobs.mosquito_repellent.desc",
+                "Makes Crimson Mosquitoes avoid the player.");
+        translationBuilder.add("effect.farmersdelight.nourishment.desc",
                 "Prevents hunger and saturation loss unless damaged.");
-        builder.add("effect.farmersdelight.comfort.description", "Allows health regeneration with low hunger.");
-        builder.add("effect.farmersrespite.caffeinated.desc", "Increases movement and attack speed");
-        builder.add("effect.farmersrespite.caffeinated.description", "Increases movement and attack speed");
-        builder.add("effect.mynethersdelight.g_pungent.desc",
+        translationBuilder.add("effect.farmersdelight.comfort.desc", "Allows health regeneration with low hunger.");
+        translationBuilder.add("effect.farmersdelight.nourishment.description",
+                "Prevents hunger and saturation loss unless damaged.");
+        translationBuilder.add("effect.farmersdelight.comfort.description",
+                "Allows health regeneration with low hunger.");
+        translationBuilder.add("effect.farmersrespite.caffeinated.desc", "Increases movement and attack speed");
+        translationBuilder.add("effect.farmersrespite.caffeinated.description", "Increases movement and attack speed");
+        translationBuilder.add("effect.mynethersdelight.g_pungent.desc",
                 "Alleviates burning, regenerate health near heat sources with fire protection armor or fire resistance effect.");
-        builder.add("effect.mynethersdelight.b_pungent.desc",
+        translationBuilder.add("effect.mynethersdelight.b_pungent.desc",
                 "Alleviates burning, regenerate health near heat sources with fire protection armor or fire resistance effect.");
-        builder.add("effect.mynethersdelight.g_pungent.description",
+        translationBuilder.add("effect.mynethersdelight.g_pungent.description",
                 "Alleviates burning, regenerate health near heat sources with fire protection armor or fire resistance effect.");
-        builder.add("effect.mynethersdelight.b_pungent.description",
+        translationBuilder.add("effect.mynethersdelight.b_pungent.description",
                 "Alleviates burning, regenerate health near heat sources with fire protection armor or fire resistance effect.");
-        builder.add("effect.supplementaries.overencumbered.desc",
+        translationBuilder.add("effect.supplementaries.overencumbered.desc",
                 "Prevents sprinting. Further levels reduce jump height hinder walking speed respectively");
-        builder.add("effect.via_romana.travellers_fatigue.desc", "Prevents fast traveling.");
-        builder.add("effect.via_romana.travellers_fatigue.description", "Prevents fast traveling.");
-        builder.add("effect.enderzoology.displacement.desc", "Randomly teleports opponents upon receiving damage.");
-        builder.add("effect.longshot.longshot.description", "Increases projectile velocity and damage dealt.");
-    }
-
-    static void addMobEffect(TranslationBuilder builder, Holder<MobEffect> mobEffect, String value) {
-        builder.add(mobEffect.value(), "desc", value);
+        translationBuilder.add("effect.via_romana.travellers_fatigue.desc", "Prevents fast traveling.");
+        translationBuilder.add("effect.via_romana.travellers_fatigue.description", "Prevents fast traveling.");
+        translationBuilder.add("effect.enderzoology.displacement.desc",
+                "Randomly teleports opponents upon receiving damage.");
+        translationBuilder.add("effect.longshot.longshot.description",
+                "Increases projectile velocity and damage dealt.");
     }
 }

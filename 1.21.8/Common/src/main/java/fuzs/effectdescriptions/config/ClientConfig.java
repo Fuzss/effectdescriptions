@@ -1,10 +1,9 @@
 package fuzs.effectdescriptions.config;
 
+import fuzs.effectdescriptions.client.helper.ComponentHelper;
+import fuzs.effectdescriptions.client.helper.EffectTooltipSuppliers;
 import fuzs.puzzleslib.api.config.v3.Config;
 import fuzs.puzzleslib.api.config.v3.ConfigCore;
-import net.minecraft.client.gui.screens.Screen;
-
-import java.util.function.BooleanSupplier;
 
 public class ClientConfig implements ConfigCore {
     @Config(
@@ -19,6 +18,14 @@ public class ClientConfig implements ConfigCore {
     public boolean widgetTooltips = true;
     @Config
     public final WidgetTooltipComponents widgetTooltipComponents = new WidgetTooltipComponents();
+    @Config(
+            description = {
+                    "Apply a fixed string before every effect description line.",
+                    "This option supports formatting codes which will also apply to the description for setting custom text colors and styles.",
+                    "https://minecraft.wiki/w/Formatting_codes"
+            }
+    )
+    public String descriptionDecorator = ComponentHelper.getAsString(EffectTooltipSuppliers.DEFAULT_DESCRIPTION_DECORATOR_COMPONENT);
 
     public static class ItemDescriptionTargets implements ConfigCore {
         @Config(description = "Add effect descriptions to potion items, e.g. potion, splash potion, lingering potion, and tipped arrow.")
@@ -52,21 +59,5 @@ public class ClientConfig implements ConfigCore {
                 description = "Add the internal id of an effect to effect widget tooltips."
         )
         public boolean internalEffectName = false;
-    }
-
-    public enum ItemEffectDescription {
-        NEVER(false),
-        SHIFT(Screen::hasShiftDown),
-        ALWAYS(true);
-
-        public final BooleanSupplier isActive;
-
-        ItemEffectDescription(boolean isActive) {
-            this(() -> isActive);
-        }
-
-        ItemEffectDescription(BooleanSupplier isActive) {
-            this.isActive = isActive;
-        }
     }
 }
