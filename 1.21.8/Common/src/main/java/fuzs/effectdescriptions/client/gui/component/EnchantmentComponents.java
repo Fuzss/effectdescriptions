@@ -17,7 +17,7 @@ public final class EnchantmentComponents {
             DataComponents.ENCHANTMENTS) {
         @Override
         protected boolean isEnabled() {
-            return EffectDescriptions.CONFIG.get(ClientConfig.class).enchantmentDescriptionTargets.enchantments;
+            return EffectDescriptions.CONFIG.get(ClientConfig.class).enchantmentItemTooltips.itemDescriptionTargets.enchantments;
         }
 
         @Override
@@ -29,7 +29,7 @@ public final class EnchantmentComponents {
             DataComponents.STORED_ENCHANTMENTS) {
         @Override
         protected boolean isEnabled() {
-            return EffectDescriptions.CONFIG.get(ClientConfig.class).enchantmentDescriptionTargets.storedEnchantments;
+            return EffectDescriptions.CONFIG.get(ClientConfig.class).enchantmentItemTooltips.itemDescriptionTargets.storedEnchantments;
         }
 
         @Override

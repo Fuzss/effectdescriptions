@@ -24,7 +24,7 @@ public class EffectWidgetHandler {
     private static List<Component> tooltipLines;
 
     public static EventResult onInventoryMobEffects(Screen screen, int availableSpace, MutableBoolean smallWidgets, MutableInt horizontalOffset) {
-        if (!EffectDescriptions.CONFIG.get(ClientConfig.class).widgetTooltips) {
+        if (!EffectDescriptions.CONFIG.get(ClientConfig.class).effectWidgetTooltips.widgetTooltips) {
             return EventResult.PASS;
         }
 
@@ -92,7 +92,7 @@ public class EffectWidgetHandler {
     }
 
     public static void onGatherEffectScreenTooltip(AbstractContainerScreen<?> screen, MobEffectInstance mobEffectInstance, List<Component> tooltipLines) {
-        if (EffectDescriptions.CONFIG.get(ClientConfig.class).widgetTooltips) {
+        if (EffectDescriptions.CONFIG.get(ClientConfig.class).effectWidgetTooltips.widgetTooltips) {
             tooltipLines.clear();
         }
     }

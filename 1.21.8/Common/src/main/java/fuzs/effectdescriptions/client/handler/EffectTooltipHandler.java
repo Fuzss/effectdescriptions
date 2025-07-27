@@ -18,7 +18,7 @@ public final class EffectTooltipHandler extends TooltipDescriptionsHandler<MobEf
 
     @Override
     protected ItemDescriptionMode getItemDescriptionMode() {
-        return EffectDescriptions.CONFIG.get(ClientConfig.class).itemEffectDescriptions;
+        return EffectDescriptions.CONFIG.get(ClientConfig.class).effectItemTooltips.itemDescriptions;
     }
 
     @Override

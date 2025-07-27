@@ -25,7 +25,7 @@ import java.util.Set;
 public class FoodTooltipHandler {
 
     public static void onItemTooltip(ItemStack itemStack, List<Component> tooltipLines, Item.TooltipContext tooltipContext, @Nullable Player player, TooltipFlag tooltipFlag) {
-        if (!EffectDescriptions.CONFIG.get(ClientConfig.class).foodEffectTooltips) {
+        if (!EffectDescriptions.CONFIG.get(ClientConfig.class).effectItemTooltips.foodEffectTooltips) {
             return;
         }
 

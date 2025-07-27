@@ -71,11 +71,10 @@ public final class EnchantmentTooltipLines {
     }
 
     public static List<Component> getEnchantmentItemTooltipLines(EnchantmentWithLevel enchantmentWithLevel) {
-        ClientConfig.EnchantmentTooltipComponents tooltipComponents = EffectDescriptions.CONFIG.get(ClientConfig.class).itemEnchantmentComponents;
         return TooltipLinesExtractor.getTooltipLines(ITEM_SUPPLIERS,
-                EffectDescriptions.CONFIG.get(ClientConfig.class).enchantmentDecorationComponent,
-                EffectDescriptions.CONFIG.get(ClientConfig.class).enchantmentDecorationStyle,
+                EffectDescriptions.CONFIG.get(ClientConfig.class).enchantmentItemTooltips.decorationComponent,
+                EffectDescriptions.CONFIG.get(ClientConfig.class).enchantmentItemTooltips.decorationStyle,
                 enchantmentWithLevel,
-                tooltipComponents);
+                EffectDescriptions.CONFIG.get(ClientConfig.class).enchantmentItemTooltips.itemTooltipLines);
     }
 }

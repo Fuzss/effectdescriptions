@@ -24,7 +24,7 @@ public final class EffectComponents {
             DataComponents.POTION_CONTENTS) {
         @Override
         protected boolean isEnabled() {
-            return EffectDescriptions.CONFIG.get(ClientConfig.class).effectDescriptionTargets.potionContents;
+            return EffectDescriptions.CONFIG.get(ClientConfig.class).effectItemTooltips.itemDescriptionTargets.potionContents;
         }
 
         @Override
@@ -36,7 +36,7 @@ public final class EffectComponents {
             DataComponents.CONSUMABLE) {
         @Override
         protected boolean isEnabled() {
-            return EffectDescriptions.CONFIG.get(ClientConfig.class).effectDescriptionTargets.consumable;
+            return EffectDescriptions.CONFIG.get(ClientConfig.class).effectItemTooltips.itemDescriptionTargets.consumable;
         }
 
         @Override
@@ -53,7 +53,7 @@ public final class EffectComponents {
             DataComponents.OMINOUS_BOTTLE_AMPLIFIER) {
         @Override
         protected boolean isEnabled() {
-            return EffectDescriptions.CONFIG.get(ClientConfig.class).effectDescriptionTargets.ominousBottle;
+            return EffectDescriptions.CONFIG.get(ClientConfig.class).effectItemTooltips.itemDescriptionTargets.ominousBottle;
         }
 
         @Override
@@ -71,7 +71,7 @@ public final class EffectComponents {
             DataComponents.SUSPICIOUS_STEW_EFFECTS) {
         @Override
         protected boolean isEnabled() {
-            return EffectDescriptions.CONFIG.get(ClientConfig.class).effectDescriptionTargets.suspiciousStew;
+            return EffectDescriptions.CONFIG.get(ClientConfig.class).effectItemTooltips.itemDescriptionTargets.suspiciousStew;
         }
 
         @Override

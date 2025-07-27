@@ -75,20 +75,18 @@ public final class MobEffectTooltipLines {
     }
 
     public static List<Component> getMobEffectWidgetTooltipLines(MobEffectInstance mobEffect) {
-        ClientConfig.EffectTooltipComponents tooltipComponents = EffectDescriptions.CONFIG.get(ClientConfig.class).widgetEffectComponents;
         return TooltipLinesExtractor.getTooltipLines(WIDGET_SUPPLIERS,
-                EffectDescriptions.CONFIG.get(ClientConfig.class).effectDecorationComponent,
-                EffectDescriptions.CONFIG.get(ClientConfig.class).effectDecorationStyle,
+                EffectDescriptions.CONFIG.get(ClientConfig.class).effectWidgetTooltips.decorationComponent,
+                EffectDescriptions.CONFIG.get(ClientConfig.class).effectWidgetTooltips.decorationStyle,
                 mobEffect,
-                tooltipComponents);
+                EffectDescriptions.CONFIG.get(ClientConfig.class).effectWidgetTooltips.widgetTooltipLines);
     }
 
     public static List<Component> getMobEffectItemTooltipLines(MobEffectInstance mobEffect) {
-        ClientConfig.TooltipComponents tooltipComponents = EffectDescriptions.CONFIG.get(ClientConfig.class).itemEffectComponents;
         return TooltipLinesExtractor.getTooltipLines(ITEM_SUPPLIERS,
-                EffectDescriptions.CONFIG.get(ClientConfig.class).effectDecorationComponent,
-                EffectDescriptions.CONFIG.get(ClientConfig.class).effectDecorationStyle,
+                EffectDescriptions.CONFIG.get(ClientConfig.class).effectItemTooltips.decorationComponent,
+                EffectDescriptions.CONFIG.get(ClientConfig.class).effectItemTooltips.decorationStyle,
                 mobEffect,
-                tooltipComponents);
+                EffectDescriptions.CONFIG.get(ClientConfig.class).enchantmentItemTooltips.itemTooltipLines);
     }
 }

@@ -25,7 +25,7 @@ public final class EnchantmentTooltipHandler extends TooltipDescriptionsHandler<
 
     @Override
     protected ItemDescriptionMode getItemDescriptionMode() {
-        return EffectDescriptions.CONFIG.get(ClientConfig.class).itemEnchantmentDescriptions;
+        return EffectDescriptions.CONFIG.get(ClientConfig.class).enchantmentItemTooltips.itemDescriptions;
     }
 
     @Override
@@ -68,18 +68,18 @@ public final class EnchantmentTooltipHandler extends TooltipDescriptionsHandler<
     private static void mergeEnchantmentStyle(Holder<Enchantment> enchantment, MutableComponent mutableComponent) {
         if (enchantment.is(EnchantmentTags.CURSE)) {
             ComponentUtils.mergeStyles(mutableComponent,
-                    EffectDescriptions.CONFIG.get(ClientConfig.class).enchantmentTextStyling.curseStyle);
+                    EffectDescriptions.CONFIG.get(ClientConfig.class).enchantmentItemTooltips.enchantmentNameStyling.curseStyle);
         } else if (enchantment.is(EnchantmentTags.TREASURE)) {
             ComponentUtils.mergeStyles(mutableComponent,
-                    EffectDescriptions.CONFIG.get(ClientConfig.class).enchantmentTextStyling.treasureStyle);
+                    EffectDescriptions.CONFIG.get(ClientConfig.class).enchantmentItemTooltips.enchantmentNameStyling.treasureStyle);
         } else {
             ComponentUtils.mergeStyles(mutableComponent,
-                    EffectDescriptions.CONFIG.get(ClientConfig.class).enchantmentTextStyling.defaultStyle);
+                    EffectDescriptions.CONFIG.get(ClientConfig.class).enchantmentItemTooltips.enchantmentNameStyling.defaultStyle);
         }
     }
 
     private static void addLevelComponent(Holder<Enchantment> enchantment, int level, MutableComponent mutableComponent) {
-        boolean maximumLevel = EffectDescriptions.CONFIG.get(ClientConfig.class).itemEnchantmentComponents.maximumLevel();
+        boolean maximumLevel = EffectDescriptions.CONFIG.get(ClientConfig.class).enchantmentItemTooltips.itemTooltipLines.maximumLevel();
 
         if (maximumLevel || level != 1 || enchantment.value().getMaxLevel() != 1) {
             mutableComponent.append(CommonComponents.SPACE)
