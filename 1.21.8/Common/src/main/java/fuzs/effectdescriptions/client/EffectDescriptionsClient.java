@@ -2,6 +2,7 @@ package fuzs.effectdescriptions.client;
 
 import fuzs.effectdescriptions.client.handler.EffectTooltipHandler;
 import fuzs.effectdescriptions.client.handler.EffectWidgetHandler;
+import fuzs.effectdescriptions.client.handler.EnchantmentTooltipHandler;
 import fuzs.effectdescriptions.client.handler.FoodTooltipHandler;
 import fuzs.puzzleslib.api.client.core.v1.ClientModConstructor;
 import fuzs.puzzleslib.api.client.event.v1.gui.ContainerScreenEvents;
@@ -19,6 +20,7 @@ public class EffectDescriptionsClient implements ClientModConstructor {
     }
 
     private static void registerEventHandlers() {
+        ItemTooltipCallback.EVENT.register(EventPhase.LAST, EnchantmentTooltipHandler::onItemTooltip);
         ItemTooltipCallback.EVENT.register(EventPhase.LAST, EffectTooltipHandler::onItemTooltip);
         ItemTooltipCallback.EVENT.register(EventPhase.AFTER, FoodTooltipHandler::onItemTooltip);
         if (!ModLoaderEnvironment.INSTANCE.isModLoaded("stylisheffects") && !ModLoaderEnvironment.INSTANCE.isModLoaded(

@@ -11,7 +11,7 @@ import net.minecraft.world.item.TooltipFlag;
 
 import java.util.List;
 
-public enum ItemEffectDescription {
+public enum ItemDescriptions {
     NEVER {
         @Override
         public boolean isActive() {

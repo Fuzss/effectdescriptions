@@ -1,7 +1,7 @@
 package fuzs.effectdescriptions.client.handler;
 
 import fuzs.effectdescriptions.EffectDescriptions;
-import fuzs.effectdescriptions.client.helper.EffectTooltipSuppliers;
+import fuzs.effectdescriptions.client.helper.TooltipLinesExtractor;
 import fuzs.effectdescriptions.config.ClientConfig;
 import fuzs.puzzleslib.api.client.gui.v2.ScreenHelper;
 import fuzs.puzzleslib.api.event.v1.core.EventResult;
@@ -38,7 +38,7 @@ public class EffectWidgetHandler {
             if (mobEffect != null) {
                 // there is no GuiGraphics instance available from the event,
                 // so temporarily store the tooltip and submit it in a later render event
-                tooltipLines = EffectTooltipSuppliers.getMobEffectComponents(mobEffect);
+                tooltipLines = TooltipLinesExtractor.getMobEffectWidgetTooltipLines(mobEffect);
             }
         }
 

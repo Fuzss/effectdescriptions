@@ -1,33 +1,59 @@
 package fuzs.effectdescriptions.config;
 
+import fuzs.effectdescriptions.EffectDescriptions;
 import fuzs.effectdescriptions.client.helper.ComponentHelper;
-import fuzs.effectdescriptions.client.helper.EffectTooltipSuppliers;
+import fuzs.effectdescriptions.client.helper.TooltipLinesExtractor;
 import fuzs.puzzleslib.api.config.v3.Config;
 import fuzs.puzzleslib.api.config.v3.ConfigCore;
 
 public class ClientConfig implements ConfigCore {
+    static final String EFFECTS_CATEGORY = "effects";
+    static final String ENCHANTMENTS_CATEGORY = "enchantments";
+    static final String TOOLTIP_DECORATIONS_DESCRIPTION_1 = "Apply a fixed string before every description line.";
+    static final String TOOLTIP_DECORATIONS_DESCRIPTION_2 = "This option supports formatting codes which will also apply to the description for setting custom text colors and styles.";
+    static final String TOOLTIP_DECORATIONS_DESCRIPTION_3 = "https://minecraft.wiki/w/Formatting_codes";
+
     @Config(
+            name = "item_descriptions",
+            category = EFFECTS_CATEGORY,
             description = "Add effect descriptions to item tooltips."
     )
-    public ItemEffectDescription itemDescriptions = ItemEffectDescription.ALWAYS;
-    @Config
-    public final ItemDescriptionTargets itemDescriptionTargets = new ItemDescriptionTargets();
+    public ItemDescriptions itemEffectDescriptions = ItemDescriptions.ALWAYS;
     @Config(
+            name = "item_descriptions",
+            category = ENCHANTMENTS_CATEGORY,
+            description = "Add enchantment descriptions to item tooltips."
+    )
+    public ItemDescriptions itemEnchantmentDescriptions = ItemDescriptions.ALWAYS;
+    @Config(name = "description_targets", category = EFFECTS_CATEGORY)
+    public final EffectDescriptionTargets effectDescriptionTargets = new EffectDescriptionTargets();
+    @Config(name = "description_targets", category = ENCHANTMENTS_CATEGORY)
+    public final EnchantmentDescriptionTargets enchantmentDescriptionTargets = new EnchantmentDescriptionTargets();
+    @Config(
+            category = EFFECTS_CATEGORY,
             description = "Add rich tooltips including effect descriptions to effect widgets in inventory screens."
     )
     public boolean widgetTooltips = true;
-    @Config
-    public final WidgetTooltipComponents widgetTooltipComponents = new WidgetTooltipComponents();
+    @Config(name = "widget_components", category = EFFECTS_CATEGORY)
+    public final EffectTooltipComponents widgetEffectComponents = new EffectTooltipComponents();
+    @Config(name = "item_components", category = EFFECTS_CATEGORY)
+    public final TooltipComponents itemEffectComponents = new TooltipComponents();
+    @Config(name = "item_components", category = ENCHANTMENTS_CATEGORY)
+    public final EnchantmentTooltipComponents itemEnchantmentComponents = new EnchantmentTooltipComponents();
     @Config(
-            description = {
-                    "Apply a fixed string before every effect description line.",
-                    "This option supports formatting codes which will also apply to the description for setting custom text colors and styles.",
-                    "https://minecraft.wiki/w/Formatting_codes"
-            }
+            name = "tooltip_decorations", category = EFFECTS_CATEGORY, description = {
+            TOOLTIP_DECORATIONS_DESCRIPTION_1, TOOLTIP_DECORATIONS_DESCRIPTION_2, TOOLTIP_DECORATIONS_DESCRIPTION_3
+    }
     )
-    public String descriptionDecorator = ComponentHelper.getAsString(EffectTooltipSuppliers.DEFAULT_DESCRIPTION_DECORATOR_COMPONENT);
+    public String effectTooltipDecorations = ComponentHelper.getAsString(TooltipLinesExtractor.DEFAULT_TOOLTIP_DECORATIONS_COMPONENT);
+    @Config(
+            name = "tooltip_decorations", category = ENCHANTMENTS_CATEGORY, description = {
+            TOOLTIP_DECORATIONS_DESCRIPTION_1, TOOLTIP_DECORATIONS_DESCRIPTION_2, TOOLTIP_DECORATIONS_DESCRIPTION_3
+    }
+    )
+    public String enchantmentTooltipDecorations = ComponentHelper.getAsString(TooltipLinesExtractor.DEFAULT_TOOLTIP_DECORATIONS_COMPONENT);
 
-    public static class ItemDescriptionTargets implements ConfigCore {
+    public static class EffectDescriptionTargets implements ConfigCore {
         @Config(description = "Add effect descriptions to potion items, e.g. potion, splash potion, lingering potion, and tipped arrow.")
         public boolean potionContents = true;
         @Config(description = "Add effect descriptions to food items, e.g. rotten flesh and raw chicken.")
@@ -38,26 +64,52 @@ public class ClientConfig implements ConfigCore {
         public boolean suspiciousStew = true;
     }
 
-    public static class WidgetTooltipComponents implements ConfigCore {
+    public static class EnchantmentDescriptionTargets implements ConfigCore {
+        @Config(description = "Add enchantment descriptions to enchanted items.")
+        public boolean enchantments = true;
+        @Config(description = "Add enchantment descriptions to enchanted books.")
+        public boolean storedEnchantments = true;
+    }
+
+    public static class TooltipComponents implements ConfigCore {
         @Config(
-                description = "Add the effect name and duration to effect widget tooltips."
+                description = "Add the description to tooltips."
         )
-        public boolean effectName = true;
+        public boolean valueDescription = true;
         @Config(
-                description = "Add the effect description to effect widget tooltips."
-        )
-        public boolean effectDescription = true;
-        @Config(
-                description = "Add attributes granted by an effect to effect widget tooltips."
-        )
-        public boolean effectAttributes = true;
-        @Config(
-                description = "Add the name of the mod that added an effect to effect widget tooltips."
+                description = "Add the name of the source mod to tooltips."
         )
         public boolean modName = false;
         @Config(
-                description = "Add the internal id of an effect to effect widget tooltips."
+                description = "Add the internal id to tooltips."
         )
-        public boolean internalEffectName = false;
+        public boolean internalName = false;
+    }
+
+    public static class EffectTooltipComponents extends TooltipComponents {
+        @Config(
+                description = "Add the effect name and duration to tooltips."
+        )
+        public boolean displayName = true;
+        @Config(
+                description = "Add attributes granted by an effect to tooltips."
+        )
+        public boolean effectAttributes = true;
+    }
+
+    public static class EnchantmentTooltipComponents extends TooltipComponents {
+        @Config(
+                description = "Add the maximum enchantment level as part of the name to tooltips."
+        )
+        public boolean maximumLevel = true;
+        @Config(
+                description = "Add tags for primary and other supported items to tooltips."
+        )
+        public boolean compatibleItems = true;
+
+        public boolean maximumLevel() {
+            return this.maximumLevel
+                    && EffectDescriptions.CONFIG.get(ClientConfig.class).itemEnchantmentDescriptions.isActive();
+        }
     }
 }
