@@ -25,7 +25,7 @@ import java.util.Set;
 public class FoodTooltipHandler {
 
     public static void onItemTooltip(ItemStack itemStack, List<Component> tooltipLines, Item.TooltipContext tooltipContext, @Nullable Player player, TooltipFlag tooltipFlag) {
-        if (!EffectDescriptions.CONFIG.get(ClientConfig.class).effectDescriptionTargets.consumable) {
+        if (!EffectDescriptions.CONFIG.get(ClientConfig.class).foodEffectTooltips) {
             return;
         }
 
@@ -41,7 +41,7 @@ public class FoodTooltipHandler {
             if (!consumeEffects.isEmpty()) {
                 // collect all possible effect description ids, to guard against other mods
                 // maybe already adding their potion effects to food tooltips (like Farmer's Delight)
-                Set<String> translationKeys = EffectTooltipHandler.getAllTranslationKeys(tooltipLines);
+                Set<String> translationKeys = TooltipDescriptionsHandler.getAllTranslationKeys(tooltipLines);
                 List<Component> potionLines = new ArrayList<>();
                 List<Component> attributeLines = new ArrayList<>();
                 for (ApplyStatusEffectsConsumeEffect consumeEffect : consumeEffects) {

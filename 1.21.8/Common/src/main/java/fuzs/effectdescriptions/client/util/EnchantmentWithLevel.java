@@ -1,4 +1,4 @@
-package fuzs.effectdescriptions.client.helper;
+package fuzs.effectdescriptions.client.util;
 
 import it.unimi.dsi.fastutil.objects.Object2IntMap;
 import net.minecraft.core.Holder;

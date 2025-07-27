@@ -1,6 +1,6 @@
 package fuzs.effectdescriptions.data.client;
 
-import fuzs.effectdescriptions.config.ItemDescriptions;
+import fuzs.effectdescriptions.config.ItemDescriptionMode;
 import fuzs.puzzleslib.api.client.data.v2.AbstractLanguageProvider;
 import fuzs.puzzleslib.api.data.v2.core.DataProviderContext;
 import net.minecraft.world.effect.MobEffects;
@@ -14,54 +14,14 @@ public class ModLanguageProvider extends AbstractLanguageProvider {
 
     @Override
     public void addTranslations(TranslationBuilder translationBuilder) {
-        translationBuilder.add(ItemDescriptions.SHIFT_COMPONENT, "\u21E7 Shift");
-        translationBuilder.add(ItemDescriptions.VIEW_DESCRIPTIONS_COMPONENT, "Hold %s to view descriptions.");
+        translationBuilder.add(ItemDescriptionMode.SHIFT_COMPONENT, "\u21E7 Shift");
+        translationBuilder.add(ItemDescriptionMode.VIEW_DESCRIPTIONS_COMPONENT, "Hold %s to view descriptions.");
+        this.addVanillaEffects(translationBuilder);
+        this.addModEffects(translationBuilder);
+        this.addVanillaEnchantments(translationBuilder);
+    }
 
-        translationBuilder.add(Enchantments.AQUA_AFFINITY, "desc", "Increases underwater mining rate.");
-        translationBuilder.add(Enchantments.BANE_OF_ARTHROPODS, "desc", "Increases damage to arthropods.");
-        translationBuilder.add(Enchantments.BLAST_PROTECTION, "desc", "Reduces explosion damage and knockback.");
-        translationBuilder.add(Enchantments.CHANNELING,
-                "desc",
-                "Channel a bolt of lightning toward an enemy during thunderstorms.");
-        translationBuilder.add(Enchantments.BINDING_CURSE, "desc", "Prevents removal of items.");
-        translationBuilder.add(Enchantments.VANISHING_CURSE, "desc", "Item destroyed on death.");
-        translationBuilder.add(Enchantments.DEPTH_STRIDER, "desc", "Increases underwater movement speed.");
-        translationBuilder.add(Enchantments.EFFICIENCY, "desc", "Increases mining speed.");
-        translationBuilder.add(Enchantments.FEATHER_FALLING, "desc", "Reduces fall damage.");
-        translationBuilder.add(Enchantments.FIRE_ASPECT, "desc", "Sets target on fire.");
-        translationBuilder.add(Enchantments.FIRE_PROTECTION, "desc", "Reduces fire damage and burn time.");
-        translationBuilder.add(Enchantments.FLAME, "desc", "Arrows set target on fire.");
-        translationBuilder.add(Enchantments.FORTUNE, "desc", "Increases certain block drops.");
-        translationBuilder.add(Enchantments.FROST_WALKER, "desc", "Turns water beneath the player into frosted ice.");
-        translationBuilder.add(Enchantments.IMPALING,
-                "desc",
-                "Deals additional damage to aquatic mobs,as well as players.");
-        translationBuilder.add(Enchantments.INFINITY, "desc", "Shooting consumes no regular arrows.");
-        translationBuilder.add(Enchantments.KNOCKBACK, "desc", "Increases knockback.");
-        translationBuilder.add(Enchantments.LOOTING, "desc", "Increases mob loot.");
-        translationBuilder.add(Enchantments.LOYALTY, "desc", "Trident returns after being thrown.");
-        translationBuilder.add(Enchantments.LUCK_OF_THE_SEA, "desc", "Increases fishing luck.");
-        translationBuilder.add(Enchantments.LURE, "desc", "Increases fishing rate.");
-        translationBuilder.add(Enchantments.MENDING, "desc", "Repair items with experience.");
-        translationBuilder.add(Enchantments.MULTISHOT, "desc", "Shoot 3 arrows at the cost of one.");
-        translationBuilder.add(Enchantments.PIERCING, "desc", "Arrows pass through multiple entities.");
-        translationBuilder.add(Enchantments.POWER, "desc", "Increases arrow damage.");
-        translationBuilder.add(Enchantments.PROJECTILE_PROTECTION, "desc", "Reduces projectile damage.");
-        translationBuilder.add(Enchantments.PROTECTION, "desc", "Reduces most types of damage.");
-        translationBuilder.add(Enchantments.PUNCH, "desc", "Increases arrow knockback.");
-        translationBuilder.add(Enchantments.QUICK_CHARGE, "desc", "Decreases crossbow reloading time.");
-        translationBuilder.add(Enchantments.RESPIRATION, "desc", "Extends underwater breathing time.");
-        translationBuilder.add(Enchantments.RIPTIDE,
-                "desc",
-                "Trident launches player with itself when thrown Only functions in water or rain.");
-        translationBuilder.add(Enchantments.SHARPNESS, "desc", "Increases damage.");
-        translationBuilder.add(Enchantments.SILK_TOUCH, "desc", "Mined blocks drop themselves.");
-        translationBuilder.add(Enchantments.SMITE, "desc", "Increases damage to undead mobs.");
-        translationBuilder.add(Enchantments.SWEEPING_EDGE, "desc", "Increases sweeping attack damage.");
-        translationBuilder.add(Enchantments.THORNS, "desc", "Damages attackers.");
-        translationBuilder.add(Enchantments.UNBREAKING, "desc", "Increases effective durability.");
-        translationBuilder.add(Enchantments.SOUL_SPEED, "desc", "Increases speed on Soul Sand/Soil.");
-
+    private void addVanillaEffects(TranslationBuilder translationBuilder) {
         translationBuilder.add(MobEffects.SPEED.value(), "desc", "Increases walking speed.");
         translationBuilder.add(MobEffects.SLOWNESS.value(), "desc", "Decreases walking speed.");
         translationBuilder.add(MobEffects.HASTE.value(), "desc", "Increases mining and attack speed.");
@@ -129,6 +89,9 @@ public class ModLanguageProvider extends AbstractLanguageProvider {
         translationBuilder.add(MobEffects.INFESTED.value(),
                 "desc",
                 "Gives the entity a 10% chance to spawn between 1 and 3 silverfish when hurt.");
+    }
+
+    private void addModEffects(TranslationBuilder translationBuilder) {
         translationBuilder.add("effect.deeperdarker.sculk_affinity.desc",
                 "Prevents the player from emitting vibrations and being heard.");
         translationBuilder.add("effect.alexscaves.deepsight.desc",
@@ -190,5 +153,52 @@ public class ModLanguageProvider extends AbstractLanguageProvider {
                 "Randomly teleports opponents upon receiving damage.");
         translationBuilder.add("effect.longshot.longshot.description",
                 "Increases projectile velocity and damage dealt.");
+    }
+
+    private void addVanillaEnchantments(TranslationBuilder translationBuilder) {
+        translationBuilder.add(Enchantments.AQUA_AFFINITY, "desc", "Increases underwater mining rate.");
+        translationBuilder.add(Enchantments.BANE_OF_ARTHROPODS, "desc", "Increases damage to arthropods.");
+        translationBuilder.add(Enchantments.BLAST_PROTECTION, "desc", "Reduces explosion damage and knockback.");
+        translationBuilder.add(Enchantments.CHANNELING,
+                "desc",
+                "Channel a bolt of lightning toward an enemy during thunderstorms.");
+        translationBuilder.add(Enchantments.BINDING_CURSE, "desc", "Prevents removal of items.");
+        translationBuilder.add(Enchantments.VANISHING_CURSE, "desc", "Item destroyed on death.");
+        translationBuilder.add(Enchantments.DEPTH_STRIDER, "desc", "Increases underwater movement speed.");
+        translationBuilder.add(Enchantments.EFFICIENCY, "desc", "Increases mining speed.");
+        translationBuilder.add(Enchantments.FEATHER_FALLING, "desc", "Reduces fall damage.");
+        translationBuilder.add(Enchantments.FIRE_ASPECT, "desc", "Sets target on fire.");
+        translationBuilder.add(Enchantments.FIRE_PROTECTION, "desc", "Reduces fire damage and burn time.");
+        translationBuilder.add(Enchantments.FLAME, "desc", "Arrows set target on fire.");
+        translationBuilder.add(Enchantments.FORTUNE, "desc", "Increases certain block drops.");
+        translationBuilder.add(Enchantments.FROST_WALKER, "desc", "Turns water beneath the player into frosted ice.");
+        translationBuilder.add(Enchantments.IMPALING,
+                "desc",
+                "Deals additional damage to aquatic mobs,as well as players.");
+        translationBuilder.add(Enchantments.INFINITY, "desc", "Shooting consumes no regular arrows.");
+        translationBuilder.add(Enchantments.KNOCKBACK, "desc", "Increases knockback.");
+        translationBuilder.add(Enchantments.LOOTING, "desc", "Increases mob loot.");
+        translationBuilder.add(Enchantments.LOYALTY, "desc", "Trident returns after being thrown.");
+        translationBuilder.add(Enchantments.LUCK_OF_THE_SEA, "desc", "Increases fishing luck.");
+        translationBuilder.add(Enchantments.LURE, "desc", "Increases fishing rate.");
+        translationBuilder.add(Enchantments.MENDING, "desc", "Repair items with experience.");
+        translationBuilder.add(Enchantments.MULTISHOT, "desc", "Shoot 3 arrows at the cost of one.");
+        translationBuilder.add(Enchantments.PIERCING, "desc", "Arrows pass through multiple entities.");
+        translationBuilder.add(Enchantments.POWER, "desc", "Increases arrow damage.");
+        translationBuilder.add(Enchantments.PROJECTILE_PROTECTION, "desc", "Reduces projectile damage.");
+        translationBuilder.add(Enchantments.PROTECTION, "desc", "Reduces most types of damage.");
+        translationBuilder.add(Enchantments.PUNCH, "desc", "Increases arrow knockback.");
+        translationBuilder.add(Enchantments.QUICK_CHARGE, "desc", "Decreases crossbow reloading time.");
+        translationBuilder.add(Enchantments.RESPIRATION, "desc", "Extends underwater breathing time.");
+        translationBuilder.add(Enchantments.RIPTIDE,
+                "desc",
+                "Trident launches player with itself when thrown Only functions in water or rain.");
+        translationBuilder.add(Enchantments.SHARPNESS, "desc", "Increases damage.");
+        translationBuilder.add(Enchantments.SILK_TOUCH, "desc", "Mined blocks drop themselves.");
+        translationBuilder.add(Enchantments.SMITE, "desc", "Increases damage to undead mobs.");
+        translationBuilder.add(Enchantments.SWEEPING_EDGE, "desc", "Increases sweeping attack damage.");
+        translationBuilder.add(Enchantments.THORNS, "desc", "Damages attackers.");
+        translationBuilder.add(Enchantments.UNBREAKING, "desc", "Increases effective durability.");
+        translationBuilder.add(Enchantments.SOUL_SPEED, "desc", "Increases speed on Soul Sand/Soil.");
     }
 }

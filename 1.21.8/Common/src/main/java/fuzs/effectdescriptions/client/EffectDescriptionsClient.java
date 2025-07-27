@@ -20,8 +20,8 @@ public class EffectDescriptionsClient implements ClientModConstructor {
     }
 
     private static void registerEventHandlers() {
-        ItemTooltipCallback.EVENT.register(EventPhase.LAST, EnchantmentTooltipHandler::onItemTooltip);
-        ItemTooltipCallback.EVENT.register(EventPhase.LAST, EffectTooltipHandler::onItemTooltip);
+        ItemTooltipCallback.EVENT.register(EventPhase.LAST, new EnchantmentTooltipHandler()::onItemTooltip);
+        ItemTooltipCallback.EVENT.register(EventPhase.LAST, new EffectTooltipHandler()::onItemTooltip);
         ItemTooltipCallback.EVENT.register(EventPhase.AFTER, FoodTooltipHandler::onItemTooltip);
         if (!ModLoaderEnvironment.INSTANCE.isModLoaded("stylisheffects") && !ModLoaderEnvironment.INSTANCE.isModLoaded(
                 "jeed")) {
