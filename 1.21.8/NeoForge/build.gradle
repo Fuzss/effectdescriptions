@@ -3,4 +3,7 @@ apply from: "https://raw.githubusercontent.com/Fuzss/modresources/main/gradle/${
 dependencies {
     // Puzzles Lib
     modApi libs.puzzleslib.neoforge
+
+    // Tooltip Insights
+    modApi(include(libs.tooltipinsights.neoforge.get()))
 }
