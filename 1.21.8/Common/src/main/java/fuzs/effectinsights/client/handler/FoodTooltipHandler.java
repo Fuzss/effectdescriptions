@@ -2,7 +2,7 @@ package fuzs.effectinsights.client.handler;
 
 import fuzs.effectinsights.EffectInsights;
 import fuzs.effectinsights.config.ClientConfig;
-import fuzs.tooltipinsights.client.handler.TooltipDescriptionsHandler;
+import fuzs.tooltipinsights.api.v1.client.handler.TooltipDescriptionsHandler;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.network.chat.CommonComponents;

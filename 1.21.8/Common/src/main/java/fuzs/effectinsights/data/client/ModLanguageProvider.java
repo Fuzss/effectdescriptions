@@ -95,15 +95,9 @@ public class ModLanguageProvider extends AbstractLanguageProvider {
                 "Prevents vibration emission and detection.");
         translationBuilder.add("effect.enderzoology.displacement", "desc", "Causes random teleportation when damaged.");
         translationBuilder.add("effect.farmersdelight.comfort", "desc", "Enables health regeneration at low hunger.");
-        translationBuilder.add("effect.farmersdelight.comfort", "desc", "Enables health regeneration at low hunger.");
         translationBuilder.add("effect.farmersdelight.nourishment", "desc", "Prevents hunger loss unless damaged.");
-        translationBuilder.add("effect.farmersdelight.nourishment", "desc", "Prevents hunger loss unless damaged.");
-        translationBuilder.add("effect.farmersrespite.caffeinated", "desc", "Increases movement and attack speed.");
         translationBuilder.add("effect.farmersrespite.caffeinated", "desc", "Increases movement and attack speed.");
         translationBuilder.add("effect.longshot.longshot", "desc", "Increases projectile speed and damage.");
-        translationBuilder.add("effect.mynethersdelight.b_pungent",
-                "desc",
-                "Reduces fire damage and enables healing near heat.");
         translationBuilder.add("effect.mynethersdelight.b_pungent",
                 "desc",
                 "Reduces fire damage and enables healing near heat.");

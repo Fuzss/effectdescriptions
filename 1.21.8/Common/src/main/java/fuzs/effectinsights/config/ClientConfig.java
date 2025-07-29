@@ -3,7 +3,7 @@ package fuzs.effectinsights.config;
 import fuzs.puzzleslib.api.config.v3.Config;
 import fuzs.puzzleslib.api.config.v3.ConfigCore;
 import fuzs.puzzleslib.api.core.v1.ModLoaderEnvironment;
-import fuzs.tooltipinsights.config.AbstractClientConfig;
+import fuzs.tooltipinsights.api.v1.config.AbstractClientConfig;
 
 public class ClientConfig extends AbstractClientConfig {
     @Config

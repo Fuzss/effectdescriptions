@@ -1,7 +1,7 @@
 package fuzs.effectinsights.client.gui.tooltip;
 
 import fuzs.effectinsights.config.ClientConfig;
-import fuzs.tooltipinsights.client.gui.tooltip.TooltipLinesExtractor;
+import fuzs.tooltipinsights.api.v1.client.gui.tooltip.TooltipLinesExtractor;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.CommonComponents;
 import net.minecraft.network.chat.Component;
