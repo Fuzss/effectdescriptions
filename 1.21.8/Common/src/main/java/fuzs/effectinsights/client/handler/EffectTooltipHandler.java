@@ -6,6 +6,7 @@ import fuzs.effectinsights.client.gui.tooltip.MobEffectTooltipLines;
 import fuzs.effectinsights.config.ClientConfig;
 import fuzs.tooltipinsights.api.v1.client.handler.TooltipDescriptionsHandler;
 import fuzs.tooltipinsights.api.v1.config.ItemDescriptionMode;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.item.ItemStack;
@@ -16,6 +17,11 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 public final class EffectTooltipHandler extends TooltipDescriptionsHandler<MobEffectInstance> {
+    public static final TooltipDescriptionsHandler<MobEffectInstance> INSTANCE = new EffectTooltipHandler();
+
+    private EffectTooltipHandler() {
+        // NO-OP
+    }
 
     @Override
     protected ItemDescriptionMode getItemDescriptionMode() {
@@ -23,7 +29,7 @@ public final class EffectTooltipHandler extends TooltipDescriptionsHandler<MobEf
     }
 
     @Override
-    protected Map<String, MobEffectInstance> getByDescriptionId(ItemStack itemStack) {
+    protected Map<String, MobEffectInstance> getByDescriptionId(ItemStack itemStack, HolderLookup.Provider registries) {
         // an item can contain the same effect multiple times, so make sure to include a merge function in our collect call
         return EffectComponents.getAllMobEffects(itemStack)
                 .collect(Collectors.toMap(MobEffectInstance::getDescriptionId,

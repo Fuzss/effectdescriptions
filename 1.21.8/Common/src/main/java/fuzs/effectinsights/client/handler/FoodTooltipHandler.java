@@ -7,6 +7,7 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.network.chat.CommonComponents;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.contents.TranslatableContents;
 import net.minecraft.util.Mth;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.player.Player;
@@ -22,6 +23,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
+import java.util.function.Consumer;
+import java.util.function.UnaryOperator;
+import java.util.stream.Collectors;
 
 public class FoodTooltipHandler {
 
@@ -42,7 +46,7 @@ public class FoodTooltipHandler {
             if (!consumeEffects.isEmpty()) {
                 // collect all possible effect description ids, to guard against other mods
                 // maybe already adding their potion effects to food tooltips (like Farmer's Delight)
-                Set<String> translationKeys = TooltipDescriptionsHandler.getAllTranslationKeys(tooltipLines);
+                Set<String> translationKeys = getAllTranslationKeys(tooltipLines);
                 List<Component> potionLines = new ArrayList<>();
                 List<Component> attributeLines = new ArrayList<>();
                 for (ApplyStatusEffectsConsumeEffect consumeEffect : consumeEffects) {
@@ -60,6 +64,17 @@ public class FoodTooltipHandler {
                 addPotionTooltipLines(tooltipLines, potionLines, attributeLines);
             }
         }
+    }
+
+    private static Set<String> getAllTranslationKeys(List<Component> tooltipLines) {
+        return tooltipLines.stream().mapMulti((Component component, Consumer<TranslatableContents> consumer) -> {
+            TooltipDescriptionsHandler.modifyTranslatableContents(component,
+                    UnaryOperator.identity(),
+                    (TranslatableContents translatableContents, UnaryOperator<Component> contentsGatherer) -> {
+                        consumer.accept(translatableContents);
+                        return false;
+                    });
+        }).map(TranslatableContents::getKey).collect(Collectors.toSet());
     }
 
     private static void collectPotionTooltipLines(MobEffectInstance mobEffectInstance, float tickRate, float probability, List<Component> potionLines, List<Component> attributeLines) {

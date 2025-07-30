@@ -79,19 +79,19 @@ public final class MobEffectTooltipLines {
         // NO-OP
     }
 
-    public static List<Component> getMobEffectWidgetTooltipLines(MobEffectInstance mobEffect) {
-        return TooltipLinesExtractor.getTooltipLines(WIDGET_SUPPLIERS,
-                EffectInsights.CONFIG.get(ClientConfig.class).effectWidgetTooltips.decorationComponent,
-                EffectInsights.CONFIG.get(ClientConfig.class).effectWidgetTooltips.decorationStyle,
-                mobEffect,
-                EffectInsights.CONFIG.get(ClientConfig.class).effectWidgetTooltips.widgetTooltipLines);
-    }
-
     public static List<Component> getMobEffectItemTooltipLines(MobEffectInstance mobEffect) {
         return TooltipLinesExtractor.getTooltipLines(ITEM_SUPPLIERS,
                 EffectInsights.CONFIG.get(ClientConfig.class).effectItemTooltips.decorationComponent,
                 EffectInsights.CONFIG.get(ClientConfig.class).effectItemTooltips.decorationStyle,
                 mobEffect,
                 EffectInsights.CONFIG.get(ClientConfig.class).effectItemTooltips.itemTooltipLines);
+    }
+
+    public static List<Component> getMobEffectWidgetTooltipLines(MobEffectInstance mobEffect) {
+        return TooltipLinesExtractor.getTooltipLines(WIDGET_SUPPLIERS,
+                EffectInsights.CONFIG.get(ClientConfig.class).effectWidgetTooltips.decorationComponent,
+                EffectInsights.CONFIG.get(ClientConfig.class).effectWidgetTooltips.decorationStyle,
+                mobEffect,
+                EffectInsights.CONFIG.get(ClientConfig.class).effectWidgetTooltips.widgetTooltipLines);
     }
 }
